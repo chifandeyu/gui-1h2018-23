@@ -15,6 +15,7 @@ class TestModel : public QObject, public QGraphicsItem
 public:
     explicit TestModel(QObject *parent = 0);
     ~TestModel();
+     void keyPressEvent(QKeyEvent *event);
 
 signals:
 
