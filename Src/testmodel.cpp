@@ -28,9 +28,35 @@ void TestModel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         Q_UNUSED(widget);
 }
 
+void TestModel::keyPressEvent(QKeyEvent *event) {
+    switch(event->key())
+    {
+    case Qt::Key_Up:
+        setPos(mapToParent(0, -5));
+        break;
+    case Qt::Key_Down:
+        setPos(mapToParent(0, 5));
+        break;
+    case Qt::Key_Left:
+        angle -= 10;
+        setRotation(angle);
+        break;
+    case Qt::Key_Right:
+        angle += 10;
+        setRotation(angle);
+        break;
+    case Qt::Key_Space:
+
+        break;
+    default:
+        break;
+    }
+}
 void TestModel::slotGameTimer()
 {
     //  GetAsyncKeyState only for WINDOWS
+    // 
+    /*
     if(GetAsyncKeyState(VK_LEFT)){
         angle -= 10;
         setRotation(angle);
@@ -45,8 +71,8 @@ void TestModel::slotGameTimer()
     if(GetAsyncKeyState(VK_DOWN)){
         setPos(mapToParent(0, 5));
     }
-
-
+*/
+    //board check
     if(this->x() - 10 < -250){
         this->setX(-240);
     }
