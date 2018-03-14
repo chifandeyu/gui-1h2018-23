@@ -64,6 +64,7 @@ protected:
   double normAngle(double angle);
 
 
+
   std::vector<QPoint> _pointCloud;
 
   QPoint _pos;

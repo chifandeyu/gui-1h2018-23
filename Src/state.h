@@ -4,24 +4,24 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
-class State {
- public:
-
+struct State {
   State();
 
   virtual ~State() {
   }
 
- private:
+  // Флаги состояний игры
+  std::map<std::string, bool> flags;
 
+  // Счёт в текущей игре
+  int score;
+  // Количество жизней в  текущей игре
+  int life;
 
-  std::map<std::string, bool> _flags;
-
-  int _score;
-
-  Ship _ship;
-  std::vector<std::shared_ptr<Object>> _objects;
+  std::shared_ptr<Ship> ship;
+  std::vector<std::shared_ptr<Object>> objects;
 };
 
 #endif // STATE_H
