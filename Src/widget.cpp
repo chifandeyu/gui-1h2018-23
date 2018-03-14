@@ -29,7 +29,8 @@ Widget::Widget(QWidget *parent) :
 
     scene->addItem(model);   // add obj
     model->setPos(0,0);      // center
-
+    model->setFlag(QGraphicsItem::ItemIsFocusable);
+    model->setFocus();
     // speed 20 times in 1 second
     timer = new QTimer();
     connect(timer, &QTimer::timeout, model, &TestModel::slotGameTimer);
