@@ -2,17 +2,18 @@
 #define GAME_MANAGER_H
 
 #include <QPoint>
-
+#include <memory>
+#include "state.h"
 
 class GameManager {
 public:
   GameManager();
 
-  void init();
+  void init() {}
 
-  void start();
+  void start() {}
 
-  State getState() const;
+  State getState() const {return *_state;}
 
 private:
 
