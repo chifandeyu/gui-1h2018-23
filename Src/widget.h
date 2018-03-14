@@ -19,6 +19,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
+    void keyPressEvent(QKeyEvent *event);
 
 
 private:
