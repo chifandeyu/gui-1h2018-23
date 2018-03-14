@@ -1,12 +1,16 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include "ship.h"
+#include "object.h"
+
 #include <string>
 #include <vector>
 #include <map>
 #include <memory>
 
 struct State {
+
   State();
 
   virtual ~State() {
@@ -22,6 +26,12 @@ struct State {
 
   std::shared_ptr<Ship> ship;
   std::vector<std::shared_ptr<Object>> objects;
+
+ private:
+
+  const std::vector<std::string> _keys;
+
+  void insertFlagsFalse(std::vector<std::string> keys);
 };
 
 #endif // STATE_H

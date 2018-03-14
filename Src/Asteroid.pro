@@ -28,13 +28,23 @@ SOURCES += \
         mainwindow.cpp \
     object.cpp \
     ship.cpp \
+    state.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    object.cpp \
+    ship.cpp \
     state.cpp
 
 HEADERS += \
         mainwindow.h \
     object.h \
     ship.h \
-    state.h
+    state.h \
+    mainwindow.h \
+    object.h \
+    ship.h \
+    state.h \
+    game_manager.h
 
 FORMS += \
         mainwindow.ui
