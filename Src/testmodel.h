@@ -7,8 +7,6 @@
 #include <QGraphicsScene>
 #include <QKeyEvent>
 
-#include <windows.h>
-
 class TestModel : public QObject, public QGraphicsItem
 {
     Q_OBJECT

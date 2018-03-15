@@ -24,19 +24,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    game_manager.cpp \
     main.cpp \
     mainwindow.cpp \
     object.cpp \
     ship.cpp \
     state.cpp \
-    game_manager.cpp
+    testmodel.cpp \
+    widget.cpp
 
 HEADERS += \
+    game_manager.h \
     mainwindow.h \
     object.h \
     ship.h \
     state.h \
-    game_manager.h
+    testmodel.h \
+    widget.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    widget.ui
