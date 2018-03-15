@@ -5,7 +5,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsScene>
-
+#include <QKeyEvent>
 
 #include <windows.h>
 
