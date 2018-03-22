@@ -23,8 +23,8 @@ public:
 
     void drawShip(std::shared_ptr<Ship> ship, std::shared_ptr<State> state, QPainter *painter);
     void drawObject(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter);
-    void drawBullets(State::object_vec objects, std::shared_ptr<State> state, QPainter *painter);
-    void drawBullet(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter);
+    void drawBullets(State::bullet_vec objects, std::shared_ptr<State> state, QPainter *painter);
+    void drawBullet(State::bullet_ptr object, std::shared_ptr<State> state, QPainter *painter);
     void drawAsteroid(std::shared_ptr<Object> asteroid, std::shared_ptr<State> state, QPainter *painter);
     void drawAsteroids(State::object_vec objects, std::shared_ptr<State> state, QPainter *painter);
 

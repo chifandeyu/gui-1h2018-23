@@ -3,22 +3,26 @@
 
 #include "object.h"
 #include "ship.h"
+#include "bullet.h"
 #include <cmath>
 
 ObjectBuilder::ObjectBuilder() {
 }
 
 std::shared_ptr<Object> ObjectBuilder::makeShip(qreal x, qreal y) {
-  return std::shared_ptr<Object>(new Ship(x,y)); //!
+  Ship* s = new Ship(x, y);
+  s->setSize(1);
+  return std::shared_ptr<Object>(s);
 }
 
 std::shared_ptr<Object> ObjectBuilder::makeBullet(qreal x, qreal y) {
-  Object* s = new Object(x, y);
+  Bullet* s = new Bullet(x, y);
   s->setPointCloud(Object::cloud({
         Object::point(0, 0.125),
         Object::point(0.125, 0),
         Object::point(0, -0.125),
         Object::point(-0.125, 0)}));
+  s->setSize(0.125);
   return std::shared_ptr<Object>(s);
 }
 
@@ -43,5 +47,6 @@ Object::cloud ObjectBuilder::generateAsteroidPoints(size_t size) {
 std::shared_ptr<Object> ObjectBuilder::makeAsteroid(qreal x, qreal y, size_t size) {
   Object* s = new Object(x, y);
   s->setPointCloud(generateAsteroidPoints(size));
+  s->setSize(size);
   return std::shared_ptr<Object>(s);
 }

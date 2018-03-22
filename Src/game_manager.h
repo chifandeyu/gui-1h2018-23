@@ -25,7 +25,7 @@ public:
 
   void updateShip(State::ship_ptr ship, state_ptr state);
 
-  void updateBullets(State::object_vec bullets, state_ptr state);
+  void updateBullets(State::bullet_vec bullets, state_ptr state);
 
   void updateObjects(State::object_vec objects, state_ptr state);
 
@@ -40,6 +40,16 @@ public:
   void turnOffRotateRight();
 
   void strike();
+
+  void updateCollision(GameManager::state_ptr state);
+
+ void breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object);
+
+ bool isCollision(State::object_ptr o1, State::object_ptr o2);
+
+ void destroyBullet(int i);
+
+ void breakShip();
 
 private:
 

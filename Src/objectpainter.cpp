@@ -65,7 +65,7 @@ inline void ObjectPainter::drawShip(std::shared_ptr<Ship> ship, std::shared_ptr<
   painter->resetTransform();
 }
 
-inline void ObjectPainter::drawBullet(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter) {
+inline void ObjectPainter::drawBullet(State::bullet_ptr object, std::shared_ptr<State> state, QPainter *painter) {
     drawObject(object, state, painter);
 }
 
@@ -93,7 +93,7 @@ void ObjectPainter::drawObject(std::shared_ptr<Object> object, std::shared_ptr<S
 
 }
 
-void ObjectPainter::drawBullets(State::object_vec bullets, std::shared_ptr<State> state, QPainter *painter)
+void ObjectPainter::drawBullets(State::bullet_vec bullets, std::shared_ptr<State> state, QPainter *painter)
 {
     for (auto bullet : bullets)
         drawBullet(bullet, state, painter);

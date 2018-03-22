@@ -3,6 +3,7 @@
 
 #include "ship.h"
 #include "object.h"
+#include "bullet.h"
 
 #include <string>
 #include <vector>
@@ -14,6 +15,8 @@ struct State {
   typedef std::shared_ptr<Ship> ship_ptr;
   typedef std::shared_ptr<Object> object_ptr;
   typedef std::vector<object_ptr> object_vec;
+  typedef std::shared_ptr<Bullet> bullet_ptr;
+  typedef std::vector<bullet_ptr> bullet_vec;
 
   State();
 
@@ -33,7 +36,7 @@ struct State {
   int life;
 
   ship_ptr ship;
-  object_vec bullets;
+  bullet_vec bullets;
   object_vec objects;
 
   // Маштаб игры

@@ -39,6 +39,10 @@ public:
     return _pointCloud;
   }
 
+  qreal getSize() {
+    return _size;
+  }
+
 
   void setPos(point pos);
 
@@ -54,6 +58,10 @@ public:
 
   void setPointCloud(cloud points) {
     _pointCloud = points;
+  }
+
+  void setSize(qreal size) {
+    _size = size;
   }
 
 
@@ -74,6 +82,8 @@ protected:
 
   qreal _speedVal;
   qreal _speedAngle;
+
+  qreal _size;
 
 };
 
