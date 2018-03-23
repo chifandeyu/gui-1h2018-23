@@ -21,7 +21,7 @@ void TestModel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
         QPolygon polygon;
 
-        polygon << QPoint(0,-40) << QPoint(25,40) << QPoint(-25,40);
+        polygon << QPoint(0,-10) << QPoint(6,10) << QPoint(-6,10);
         painter->setBrush(Qt::red);
         painter->drawPolygon(polygon);
         Q_UNUSED(option);
@@ -72,6 +72,7 @@ void TestModel::slotGameTimer()
         setPos(mapToParent(0, 5));
     }
 */
+
     //board check
     if(this->x() - 10 < -250){
         this->setX(-240);

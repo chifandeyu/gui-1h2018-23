@@ -31,7 +31,8 @@ SOURCES += \
     ship.cpp \
     state.cpp \
     testmodel.cpp \
-    widget.cpp
+    widget.cpp \
+    objectpainter.cpp
 
 HEADERS += \
     game_manager.h \
@@ -40,7 +41,8 @@ HEADERS += \
     ship.h \
     state.h \
     testmodel.h \
-    widget.h
+    widget.h \
+    objectpainter.h
 
 FORMS += \
         mainwindow.ui \

@@ -6,8 +6,8 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->resize(600,600);
-    this->setFixedSize(600,600);
+    this->resize(800,600);
+    this->setFixedSize(800,600);
 
     scene = new QGraphicsScene();
     // add obj
@@ -19,8 +19,8 @@ Widget::Widget(QWidget *parent) :
 
     scene->setSceneRect(-250,-250,500,500);
 
-    scene->addLine(-250,0,250,0,QPen(Qt::black));   // lines
-    scene->addLine(0,-250,0,250,QPen(Qt::black));
+//    scene->addLine(-250,0,250,0,QPen(Qt::black));   // lines
+//    scene->addLine(0,-250,0,250,QPen(Qt::black));
 
     scene->addLine(-250,-250, 250,-250, QPen(Qt::black)); // board
     scene->addLine(-250, 250, 250, 250, QPen(Qt::black));
