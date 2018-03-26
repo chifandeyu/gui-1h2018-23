@@ -25,9 +25,7 @@ inline qreal Object::getRotateAngleSpeed() const {
   return _rotateAngleSpeed;
 }
 
-inline Object::cloud Object::getPointCloud() {
-  return _pointCloud;
-}
+
 
 inline void Object::setPos(Object::point pos) {
   _pos = pos;

@@ -41,7 +41,9 @@ public:
 
   qreal getRotateAngleSpeed() const;
 
-  cloud getPointCloud();
+  cloud getPointCloud() {
+    return _pointCloud;
+  }
 
 
   void setPos(point pos);
