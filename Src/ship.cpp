@@ -3,11 +3,11 @@
 #include "ship.h"
 #include <cmath>
 
-inline double Ship::getAccVal() const {
+inline qreal Ship::getAccVal() const {
   return _accVal;
 }
 
-inline double Ship::getAccAngle() const {
+inline qreal Ship::getAccAngle() const {
   return _accAngle;
 }
 
@@ -15,11 +15,11 @@ inline bool Ship::isAcc() const {
   return _isAcc;
 }
 
-inline void Ship::setAccdVal(double val) {
+inline void Ship::setAccdVal(qreal val) {
   _accVal = val;
 }
 
-inline void Ship::setAccAngle(double angle) {
+inline void Ship::setAccAngle(qreal angle) {
   _accAngle = normAngle(angle);
 }
 
@@ -37,17 +37,17 @@ inline void Ship::update() {
 }
 
 void Ship::updateSpeed() {
-  double accAngle = getAccAngle();
-  double accVal = getAccVal();
-  double speedAngle = getSpeedAngle();
-  double speedVal = getSpeedVal();
+  qreal accAngle = getAccAngle();
+  qreal accVal = getAccVal();
+  qreal speedAngle = getSpeedAngle();
+  qreal speedVal = getSpeedVal();
 
-  double x = accVal * cos(accAngle) + speedVal * cos(speedAngle);
-  double y = accVal * sin(accAngle) + speedVal * sin(speedAngle);
+  qreal x = accVal * cos(accAngle) + speedVal * cos(speedAngle);
+  qreal y = accVal * sin(accAngle) + speedVal * sin(speedAngle);
 
 
-  double newSpeedVal = sqrt(pow(x, 2) + pow(y, 2));
-  double newSpeedAngle = atan2(y,x)+M_PI;
+  qreal newSpeedVal = sqrt(pow(x, 2) + pow(y, 2));
+  qreal newSpeedAngle = atan2(y,x)+M_PI;
 
   setSpeedAngle(newSpeedAngle);
   setSpeedVal(newSpeedVal);

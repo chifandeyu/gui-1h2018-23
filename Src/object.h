@@ -1,26 +1,29 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include <QPoint>
+#include<QPointF>
+#include <utility>
 #include <vector>
 
 enum dirType { LEFT = -1, STAY = 0, RIGHT = 1};
 
 class Object {
 public:
-  #define DEF_R_A_SPEED 0.1
+  const int DEF_R_A_SPEED = 0.1;
+  typedef QPointF point;
+  typedef std::vector<point> cloud;
 
-  Object(double x, double y,
-         double speedAngle,
-         double speedVal)
-    :_pos(QPoint(x,y))
+  Object(qreal x, qreal y,
+         qreal speedAngle,
+         qreal speedVal)
+    :_pos(point(x,y))
     ,_speedVal(speedVal)
     ,_speedAngle(speedAngle)
     ,_rotateDir(STAY)
     ,_rotateAngleSpeed(DEF_R_A_SPEED){
   }
 
- Object(double x, double y)
+ Object(qreal x, qreal y)
    :Object(x,y,0,0) {
   }
 
@@ -28,30 +31,36 @@ public:
     :Object(0,0,0,0) {
   }
 
-  QPoint getPos() const;
+  point getPos() const;
 
-  double getSpeedVal() const;
+  qreal getSpeedVal() const;
 
-  double getSpeedAngle() const;
+  qreal getSpeedAngle() const;
 
   dirType getRotateDir() const;
 
-  double getRotateAngleSpeed() const;
+  qreal getRotateAngleSpeed() const;
+
+  cloud getPointCloud();
 
 
-  void setPos(QPoint pos);
+  void setPos(point pos);
 
-  void setPos(int x, int y);
+  void setPos(qreal x, qreal y);
 
-  void setSpeedVal(double val) {
+  void setSpeedVal(qreal val) {
     _speedVal = val;
   }
 
-  void setSpeedAngle(double angle);
+  void setSpeedAngle(qreal angle);
 
   void setRotateDir(dirType dir);
 
-  void setRotateAngleSpeed(double speed);
+  void setRotateAngleSpeed(qreal speed);
+
+  void setPointCloud(cloud points) {
+    _pointCloud = points;
+  }
 
 
   virtual void update();
@@ -61,19 +70,19 @@ protected:
 
   void updateRotate();
 
-  double normAngle(double angle);
+  qreal normAngle(qreal angle);
 
 
 
-  std::vector<QPoint> _pointCloud;
+  cloud _pointCloud;
 
-  QPoint _pos;
+  point _pos;
 
-  double _speedVal;
-  double _speedAngle;
+  qreal _speedVal;
+  qreal _speedAngle;
 
   dirType _rotateDir;
-  double _rotateAngleSpeed;
+  qreal _rotateAngleSpeed;
 };
 
 #endif // OBJECT_H

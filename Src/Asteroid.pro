@@ -32,7 +32,8 @@ SOURCES += \
     state.cpp \
     testmodel.cpp \
     widget.cpp \
-    objectpainter.cpp
+    objectpainter.cpp \
+    objectbuilder.cpp
 
 HEADERS += \
     game_manager.h \
@@ -42,7 +43,8 @@ HEADERS += \
     state.h \
     testmodel.h \
     widget.h \
-    objectpainter.h
+    objectpainter.h \
+    objectbuilder.h
 
 FORMS += \
         mainwindow.ui \

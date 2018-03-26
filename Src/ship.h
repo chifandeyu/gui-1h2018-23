@@ -20,16 +20,16 @@ class Ship : public Object {
 
   virtual ~Ship() {}
 
-  double getAccVal() const;
+  qreal getAccVal() const;
 
-  double getAccAngle() const;
+  qreal getAccAngle() const;
 
   bool isAcc() const;
 
 
-  void setAccdVal(double val);
+  void setAccdVal(qreal val);
 
-  void setAccAngle(double angle);
+  void setAccAngle(qreal angle);
 
   void turnOnAcc();
 
@@ -42,8 +42,8 @@ class Ship : public Object {
 
   void updateSpeed();
 
-  double _accVal;
-  double _accAngle;
+  qreal _accVal;
+  qreal _accAngle;
   bool _isAcc;
 };
 

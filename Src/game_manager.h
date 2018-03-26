@@ -7,7 +7,7 @@
 
 class GameManager {
 public:
-  GameManager();
+  GameManager() {}
 
   void init() {}
 
