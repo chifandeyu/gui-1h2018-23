@@ -9,18 +9,17 @@ ObjectBuilder::ObjectBuilder() {
 }
 
 std::shared_ptr<Object> ObjectBuilder::makeShip(qreal x, qreal y) {
-  Ship s = Ship(x, y);
-  return std::shared_ptr<Object>(&s);
+  return std::shared_ptr<Object>(new Ship(x,y)); //!
 }
 
 std::shared_ptr<Object> ObjectBuilder::makeBullet(qreal x, qreal y) {
-  Object s = Object(x, y);
-  s.setPointCloud(Object::cloud({
+  Object* s = new Object(x, y);
+  s->setPointCloud(Object::cloud({
         Object::point(0, 0.25),
         Object::point(0.25, 0),
         Object::point(0, -0.25),
         Object::point(-0.25, 0)}));
-  return std::shared_ptr<Object>(&s);
+  return std::shared_ptr<Object>(s);
 }
 
 Object::cloud ObjectBuilder::generateAsteroidPoints(size_t size) {
@@ -42,7 +41,7 @@ Object::cloud ObjectBuilder::generateAsteroidPoints(size_t size) {
 }
 
 std::shared_ptr<Object> ObjectBuilder::makeAsteroid(qreal x, qreal y, size_t size) {
-  Object s = Object(x, y);
-  s.setPointCloud(generateAsteroidPoints(size));
-  return std::shared_ptr<Object>(&s);
+  Object* s = new Object(x, y);
+  s->setPointCloud(generateAsteroidPoints(size));
+  return std::shared_ptr<Object>(s);
 }
