@@ -12,6 +12,11 @@ class Ship : public Object {
     ,_accVal(0)
     ,_accAngle(0)
     ,_isAcc(false) {
+    _pointCloud = Object::cloud({
+          Object::point(0, 1),
+          Object::point(1, -1),
+          Object::point(0, -0.5),
+          Object::point(-1, -1)});
   }
 
   Ship()

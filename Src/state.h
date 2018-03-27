@@ -25,7 +25,7 @@ struct State {
   int life;
 
   std::shared_ptr<Ship> ship;
-  std::shared_ptr<Object> bullets;
+  std::vector<std::shared_ptr<Object>> bullets;
   std::vector<std::shared_ptr<Object>> objects;
 
  private:

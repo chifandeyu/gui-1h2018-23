@@ -15,10 +15,11 @@ std::shared_ptr<Object> ObjectBuilder::makeShip(qreal x, qreal y) {
 
 std::shared_ptr<Object> ObjectBuilder::makeBullet(qreal x, qreal y) {
   Object s = Object(x, y);
-  s.setPointCloud(Object::cloud({Object::point(0.25, 0),
-          Object::point(0.5, 0.25),
-          Object::point(0.25, 0.5),
-          Object::point(0, 0.25)}));
+  s.setPointCloud(Object::cloud({
+        Object::point(0, 0.25),
+        Object::point(0.25, 0),
+        Object::point(0, -0.25),
+        Object::point(-0.25, 0)}));
   return std::shared_ptr<Object>(&s);
 }
 
@@ -33,8 +34,8 @@ Object::cloud ObjectBuilder::generateAsteroidPoints(size_t size) {
   for (int i = 0; i < N; i++) {
     rand_angle = 2*M_PI/(rand() % 100);
     rand_rad = ((qreal)rand() / RAND_MAX)*rad;
-    x = size * cos(angle*i) + rand_rad * cos(rand_angle);
-    y = size * sin(angle*i) + rand_rad * sin(rand_angle);
+    x = size * cos(angle*i) + rand_rad * cos(rand_angle) - size/2;
+    y = size * sin(angle*i) + rand_rad * sin(rand_angle) - size/2;
     points.push_back(Object::point(x, y));
   }
   return points;
