@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-03-27T00:48:07
+# Project created by QtCreator 2018-02-19T12:11:56
 #
 #-------------------------------------------------
 
@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Asteroid
 TEMPLATE = app
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -24,30 +25,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
     game_manager.cpp \
-
-
+    main.cpp \
+    mainwindow.cpp \
     object.cpp \
-    objectbuilder.cpp \
-    objectpainter.cpp \
     ship.cpp \
     state.cpp \
     testmodel.cpp \
-    widget.cpp
+    widget.cpp \
+    objectpainter.cpp \
+    objectbuilder.cpp
 
 HEADERS += \
-        mainwindow.h \
     game_manager.h \
-
+    mainwindow.h \
     object.h \
-    objectbuilder.h \
-    objectpainter.h \
     ship.h \
     state.h \
     testmodel.h \
-    widget.h
+    widget.h \
+    objectpainter.h \
+    objectbuilder.h
 
 FORMS += \
         mainwindow.ui \
