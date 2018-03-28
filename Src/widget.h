@@ -11,6 +11,8 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <objectbuilder.h>
+#include <game_manager.h>
+#include <controller.h>
 namespace Ui {
 class Widget;
 }
@@ -35,6 +37,9 @@ private:
     QGraphicsScene  *scene;
     TestModel       *model;
     QTimer          *timer;
+    State          *_state;
+    //Controller controller=Controller(_state);
+
 
 };
 

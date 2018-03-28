@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 
 #include "object.h"
+#include <QPoint>
 #include <cmath>
 
 

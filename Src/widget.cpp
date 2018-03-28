@@ -6,8 +6,13 @@ Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
+
     this->resize(800,600);
     this->setFixedSize(800,600);
+    Controller controller (_state);
+    timer = new QTimer();
+    connect(timer, &QTimer::timeout, &controller, &Controller::update);
+    timer->start(1000 / 50);
     //    ui->setupUi(this);
     //    scene = new QGraphicsScene();
     //    // add obj

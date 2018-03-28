@@ -23,12 +23,8 @@ struct State {
   // Флаги состояний игры
   std::map<std::string, bool> flags;
 
-  //Уровнь
-  int level;
-
   // Счёт в текущей игре
   int score;
-
   // Количество жизней в  текущей игре
   int life;
 
@@ -38,10 +34,6 @@ struct State {
 
   // Маштаб игры
   int scale;
-
-  // Размеры поля
-  int height, width;
-
  private:
 
   const std::vector<std::string> _keys;
