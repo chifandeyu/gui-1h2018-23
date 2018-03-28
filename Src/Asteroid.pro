@@ -34,7 +34,8 @@ SOURCES += \
     testmodel.cpp \
     widget.cpp \
     objectpainter.cpp \
-    objectbuilder.cpp
+    objectbuilder.cpp \
+    controller.cpp
 
 HEADERS += \
     game_manager.h \
@@ -45,7 +46,8 @@ HEADERS += \
     testmodel.h \
     widget.h \
     objectpainter.h \
-    objectbuilder.h
+    objectbuilder.h \
+    controller.h
 
 FORMS += \
         mainwindow.ui \
