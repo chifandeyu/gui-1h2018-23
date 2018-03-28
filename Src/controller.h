@@ -3,6 +3,7 @@
 
 #include "game_manager.h"
 #include "state.h"
+#include <QKeyEvent>
 
 class Controller {
  private:
@@ -14,6 +15,10 @@ class Controller {
   Controller(State* state);
 
   void update();
+
+  void keyPressEvent(QKeyEvent *event);
+
+  void keyReleaseEvent(QKeyEvent *event);
 
 };
 
