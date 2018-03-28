@@ -1,18 +1,23 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include <typeinfo>
-
+#include <QSignalMapper>
+#include <QDebug>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget),
     _state(new State()),
-    _controller(new Controller(_state.get()))
+    _controller(new Controller(_state.get())),
+    _objectPainter(new ObjectPainter(_state.get()))
 {
 
     this->resize(800,600);
     this->setFixedSize(800,600);
+   .. QSignalMapper* signalMapper = new QSignalMapper (this);
     timer = std::shared_ptr<QTimer>(new QTimer());
     connect(timer.get(), &QTimer::timeout, _controller.get(), &Controller::update);
+    //connect(timer.get(), &QTimer::timeout, _objectPainter.get(), [&ObjectPainter] { slotGameTimer(_state);});
+    connect(timer.get(), &QTimer::timeout, _objectPainter.get(), &ObjectPainter::slotGameTimer);
     timer->start(1000 / 50);
     //    ui->setupUi(this);
     //    scene = new QGraphicsScene();
@@ -44,11 +49,43 @@ Widget::Widget(QWidget *parent) :
 
 }
 
+void Widget::keyPressEvent(QKeyEvent *event)
+{
+    qDebug()<<"KEYPREESD";
+    switch(event->key())
+    {
+    case Qt::Key_Up:
+
+
+        break;
+    case Qt::Key_Down:
+
+        break;
+    case Qt::Key_Left:
+
+
+        break;
+    case Qt::Key_Right:
+
+        break;
+    case Qt::Key_Space:
+
+        break;
+    default:
+        break;
+    }
+}
+
+void Widget::keyReleaseEvent(QKeyEvent *event)
+{
+
+}
+
 Widget::~Widget()
 {
     delete ui;
 }
-
+/*
 void Widget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -64,43 +101,4 @@ void Widget::paintEvent(QPaintEvent *event)
     drawBullet(bullet, &painter);
     drawAsteroid(asteroid, &painter);
 }
-
-inline void Widget::drawShip(std::shared_ptr<Ship> ship,QPainter *painter) {
-
-    drawObject(std::dynamic_pointer_cast<Object>(ship),painter);
-}
-
-inline void Widget::drawBullet(std::shared_ptr<Object> object, QPainter *painter) {
-    drawObject(object,painter);
-}
-
-inline void Widget::drawAsteroids(std::shared_ptr<State> state, QPainter *painter)
-{
-    for (auto asteriod : state->objects)
-        drawBullet(asteriod,painter);
-
-}
-
-inline void Widget::drawAsteroid(std::shared_ptr<Object> asteroid, QPainter *painter)
-{
-    drawObject(asteroid,painter);
-}
-
-
-void Widget::drawObject(std::shared_ptr<Object> object,QPainter *painter)
-{
-    Object::cloud points=object->getPointCloud();
-    for (size_t i=1;i<points.size();i++)
-        painter->drawLine(object->getPos()+points[i-1]*25,object->getPos()+points[i]*25);
-    painter->drawLine(object->getPos()+points.front()*25,object->getPos()+points.back()*25);
-
-
-}
-
-void Widget::drawBullets(std::shared_ptr<State> state, QPainter *painter)
-{
-    for (auto bullet : state->bullets)
-        drawBullet(bullet,painter);
-
-}
-
+*/
