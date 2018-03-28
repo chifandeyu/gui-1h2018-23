@@ -4,14 +4,15 @@
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Widget)
+    ui(new Ui::Widget),
+    _state(new State()),
+    _controller(new Controller(_state.get()))
 {
 
     this->resize(800,600);
     this->setFixedSize(800,600);
-    Controller controller (_state);
-    timer = new QTimer();
-    connect(timer, &QTimer::timeout, &controller, &Controller::update);
+    timer = std::shared_ptr<QTimer>(new QTimer());
+    connect(timer.get(), &QTimer::timeout, _controller.get(), &Controller::update);
     timer->start(1000 / 50);
     //    ui->setupUi(this);
     //    scene = new QGraphicsScene();
@@ -52,6 +53,8 @@ void Widget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     ObjectBuilder builder;
+
+    drawAsteroids(_state, &painter);
 
     auto asteroid = builder.makeAsteroid(241,400,3);
     auto bullet = builder.makeBullet(418,180.0);

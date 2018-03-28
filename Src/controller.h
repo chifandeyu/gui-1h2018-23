@@ -3,18 +3,22 @@
 
 #include "game_manager.h"
 #include "state.h"
+#include <QKeyEvent>
 
-class Controller :public QObject {
-   // Q_OBJECT
-private:
+class Controller : public QObject {
+ private:
 
-    GameManager _manager;
+  GameManager _manager;
 
-public:
+ public:
 
-    Controller(State* state);
-public slots:
-    void update();
+  Controller(State* state);
+
+  void update();
+
+  void keyPressEvent(QKeyEvent *event);
+
+  void keyReleaseEvent(QKeyEvent *event);
 
 };
 

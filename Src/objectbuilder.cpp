@@ -15,10 +15,10 @@ std::shared_ptr<Object> ObjectBuilder::makeShip(qreal x, qreal y) {
 std::shared_ptr<Object> ObjectBuilder::makeBullet(qreal x, qreal y) {
   Object* s = new Object(x, y);
   s->setPointCloud(Object::cloud({
-        Object::point(0, 0.25),
-        Object::point(0.25, 0),
-        Object::point(0, -0.25),
-        Object::point(-0.25, 0)}));
+        Object::point(0, 0.125),
+        Object::point(0.125, 0),
+        Object::point(0, -0.125),
+        Object::point(-0.125, 0)}));
   return std::shared_ptr<Object>(s);
 }
 

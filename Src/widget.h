@@ -36,9 +36,9 @@ private:
     Ui::Widget      *ui;
     QGraphicsScene  *scene;
     TestModel       *model;
-    QTimer          *timer;
-    State          *_state;
-    //Controller controller=Controller(_state);
+    std::shared_ptr<QTimer>          timer;
+    std::shared_ptr<State>          _state;
+    std::shared_ptr<Controller>  _controller;
 
 
 };
