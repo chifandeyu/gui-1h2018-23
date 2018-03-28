@@ -11,6 +11,10 @@
 
 struct State {
 
+  typedef std::shared_ptr<Ship> ship_ptr;
+  typedef std::shared_ptr<Object> object_ptr;
+  typedef std::vector<object_ptr> object_vec;
+
   State();
 
   virtual ~State() {
@@ -24,10 +28,12 @@ struct State {
   // Количество жизней в  текущей игре
   int life;
 
-  std::shared_ptr<Ship> ship;
-  std::vector<std::shared_ptr<Object>> bullets;
-  std::vector<std::shared_ptr<Object>> objects;
+  ship_ptr ship;
+  object_vec bullets;
+  object_vec objects;
 
+  // Маштаб игры
+  int scale;
  private:
 
   const std::vector<std::string> _keys;

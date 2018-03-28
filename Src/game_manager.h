@@ -7,17 +7,24 @@
 
 class GameManager {
 public:
-  GameManager() {}
 
-  void init() {}
+  typedef std::shared_ptr<State> state_ptr;
 
-  void start() {}
+  GameManager(State* state)
+    :_state(state) {
+  }
 
-  State getState() const {return *_state;}
+  void update();
+
+  void updateShip(State::ship_ptr ship, state_ptr state);
+
+  void updateBullets(State::object_vec bullets, state_ptr state);
+
+  void updateObjects(State::object_vec objects, state_ptr state);
 
 private:
 
-  std::shared_ptr<State> _state;
+  state_ptr _state;
 
 };
 
