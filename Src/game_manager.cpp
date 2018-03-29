@@ -114,6 +114,9 @@ void GameManager::strike() {
   auto bullet = _builder.makeBullet(pos.x()+cos(angle),
                                     pos.y()+sin(angle));
 
+  bullet->setSpeedVal(4);
+  bullet->setSpeedAngle(ship->getAccAngle());
 
+  _state->bullets.push_back(bullet);
 
 }
