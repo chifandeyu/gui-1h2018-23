@@ -31,6 +31,16 @@ public:
 
   void updateObject(State::object_ptr object, state_ptr state);
 
+  void turnOnAcc();
+  void turnOnRotateLeft();
+  void turnOnRotateRight();
+
+  void turnOffAcc();
+  void turnOffRotateLeft();
+  void turnOffRotateRight();
+
+  void strike();
+
 private:
 
   state_ptr _state;

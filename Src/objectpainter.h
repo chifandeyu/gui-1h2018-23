@@ -21,21 +21,21 @@ public:
     ~ObjectPainter();
     void keyPressEvent(QKeyEvent *event);
 
-    void drawShip(std::shared_ptr<Ship> ship, QPainter *painter);
-    void drawObject(std::shared_ptr<Object> object,QPainter *painter);
-    void drawBullets(std::shared_ptr<State> state, QPainter *painter);
-    void drawBullet(std::shared_ptr<Object> object, QPainter *painter);
-    void drawAsteroid(std::shared_ptr<Object> asteroid, QPainter *painter);
-    void drawAsteroids(std::shared_ptr<State> state, QPainter *painter);
+    void drawShip(std::shared_ptr<Ship> ship, std::shared_ptr<State> state, QPainter *painter);
+    void drawObject(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter);
+    void drawBullets(State::object_vec objects, std::shared_ptr<State> state, QPainter *painter);
+    void drawBullet(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter);
+    void drawAsteroid(std::shared_ptr<Object> asteroid, std::shared_ptr<State> state, QPainter *painter);
+    void drawAsteroids(State::object_vec objects, std::shared_ptr<State> state, QPainter *painter);
 
 signals:
 
 public slots:
     void slotGameTimer();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 protected:
     QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 
 

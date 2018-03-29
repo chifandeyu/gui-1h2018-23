@@ -1,5 +1,10 @@
 #include "objectpainter.h"
 #include <QDebug>
+
+#define _USE_MATH_DEFINES
+
+#include <cmath>
+
 ObjectPainter::ObjectPainter(QObject *parent) :
     QObject(parent), QGraphicsItem()
 {
@@ -30,18 +35,20 @@ QRectF ObjectPainter::boundingRect() const
 */
 void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
+  drawShip(_state->ship, _state, painter);
+  drawAsteroids(_state->objects, _state, painter);
+  drawBullets(_state->bullets, _state, painter);
+
+  Q_UNUSED(option);
+  Q_UNUSED(widget);
 }
 
 void ObjectPainter::slotGameTimer()
 {
    std::shared_ptr< QPainter> painter(new QPainter);
-   // drawShip(_state->ship,painter);
-  //  drawAsteroids(_state,painter);
-  //  drawBullets(_state,painter);
-    qDebug()<<"paint";
-    qDebug()<<"slotGameTimer";
+
+   qDebug()<<"paint";
+   qDebug()<<"slotGameTimer";
 }
 
 QRectF ObjectPainter::boundingRect() const
@@ -50,42 +57,46 @@ QRectF ObjectPainter::boundingRect() const
 }
 
 
-inline void ObjectPainter::drawShip(std::shared_ptr<Ship> ship,QPainter *painter) {
-
-    drawObject(std::dynamic_pointer_cast<Object>(ship),painter);
+inline void ObjectPainter::drawShip(std::shared_ptr<Ship> ship, std::shared_ptr<State> state, QPainter *painter) {
+  painter->translate(ship->getPos().x(), ship->getPos().y());
+  painter->rotate(ship->getAccAngle()/2/M_PI * 360);
+  painter->translate(-ship->getPos().x(), -ship->getPos().y());
+  drawObject(std::dynamic_pointer_cast<Object>(ship),  state, painter);
+  painter->resetTransform();
 }
 
-inline void ObjectPainter::drawBullet(std::shared_ptr<Object> object, QPainter *painter) {
-    drawObject(object,painter);
+inline void ObjectPainter::drawBullet(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter) {
+    drawObject(object, state, painter);
 }
 
-inline void ObjectPainter::drawAsteroids(std::shared_ptr<State> state, QPainter *painter)
+inline void ObjectPainter::drawAsteroids(State::object_vec objects, std::shared_ptr<State> state, QPainter *painter)
 {
-    for (auto asteriod : state->objects)
-        drawBullet(asteriod,painter);
+    for (auto asteriod : objects)
+        drawAsteroid(asteriod, state, painter);
 
 }
 
-inline void ObjectPainter::drawAsteroid(std::shared_ptr<Object> asteroid, QPainter *painter)
+inline void ObjectPainter::drawAsteroid(std::shared_ptr<Object> asteroid, std::shared_ptr<State> state, QPainter *painter)
 {
-    drawObject(asteroid,painter);
+    drawObject(asteroid, state, painter);
 }
 
 
-void ObjectPainter::drawObject(std::shared_ptr<Object> object,QPainter *painter)
+void ObjectPainter::drawObject(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter)
 {
     Object::cloud points=object->getPointCloud();
-    for (size_t i=1;i<points.size();i++)
-        painter->drawLine(object->getPos()+points[i-1]*25,object->getPos()+points[i]*25);
-    painter->drawLine(object->getPos()+points.front()*25,object->getPos()+points.back()*25);
+    auto scale = state->scale;
+    for (size_t i=0; i<points.size()-1;i++)
+        painter->drawLine(object->getPos()+points[i]*scale,object->getPos()+points[i+1]*scale);
+    painter->drawLine(object->getPos()+points.front()*scale,object->getPos()+points.back()*scale);
 
 
 }
 
-void ObjectPainter::drawBullets(std::shared_ptr<State> state, QPainter *painter)
+void ObjectPainter::drawBullets(State::object_vec bullets, std::shared_ptr<State> state, QPainter *painter)
 {
-    for (auto bullet : state->bullets)
-        drawBullet(bullet,painter);
+    for (auto bullet : bullets)
+        drawBullet(bullet, state, painter);
 
 }
 

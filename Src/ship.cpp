@@ -3,52 +3,82 @@
 #include "ship.h"
 #include <cmath>
 
-inline qreal Ship::getAccVal() const {
+qreal Ship::getAccVal() const {
   return _accVal;
 }
 
-inline qreal Ship::getAccAngle() const {
+qreal Ship::getAccAngle() const {
   return _accAngle;
 }
 
-inline bool Ship::isAcc() const {
+inline dirType Ship::getRotateDir() const {
+  return _rotateDir;
+}
+
+qreal Ship::getRotateAngleSpeed() const {
+  return _rotateAngleSpeed;
+}
+
+bool Ship::isAcc() const {
   return _isAcc;
 }
 
-inline void Ship::setAccdVal(qreal val) {
+void Ship::setAccdVal(qreal val) {
   _accVal = val;
 }
 
-inline void Ship::setAccAngle(qreal angle) {
+void Ship::setAccAngle(qreal angle) {
   _accAngle = normAngle(angle);
 }
 
-inline void Ship::turnOnAcc() {
+void Ship::setRotateDir(dirType dir) {
+  _rotateDir = dir;
+}
+
+void Ship::setRotateAngleSpeed(qreal speed) {
+  _rotateAngleSpeed = speed;
+}
+
+void Ship::turnOnAcc() {
   _isAcc = true;
 }
 
-inline void Ship::turnOffAcc() {
+void Ship::turnOffAcc() {
   _isAcc = false;
 }
 
 inline void Ship::update() {
   Object::update();
   updateSpeed();
+  updateRotate();
+}
+
+void Ship::updateRotate() {
+  auto dir = getRotateDir();
+
+  if (dir != STAY) {
+      auto rotateAcc = getAccAngle();
+      auto dAngle = dir == LEFT ? -getRotateAngleSpeed() : getRotateAngleSpeed();
+
+      setAccAngle(normAngle(rotateAcc+dAngle));
+  }
 }
 
 void Ship::updateSpeed() {
-  qreal accAngle = getAccAngle();
-  qreal accVal = getAccVal();
-  qreal speedAngle = getSpeedAngle();
-  qreal speedVal = getSpeedVal();
+  if (isAcc()) {
+      qreal accAngle = getAccAngle();
+      qreal accVal = getAccVal();
+      qreal speedAngle = getSpeedAngle();
+      qreal speedVal = getSpeedVal();
 
-  qreal x = accVal * cos(accAngle) + speedVal * cos(speedAngle);
-  qreal y = accVal * sin(accAngle) + speedVal * sin(speedAngle);
+      qreal x = accVal * cos(accAngle) + speedVal * cos(speedAngle);
+      qreal y = accVal * sin(accAngle) + speedVal * sin(speedAngle);
 
 
-  qreal newSpeedVal = sqrt(pow(x, 2) + pow(y, 2));
-  qreal newSpeedAngle = atan2(y,x)+M_PI;
+      qreal newSpeedVal = sqrt(pow(x, 2) + pow(y, 2));
+      qreal newSpeedAngle = atan2(y,x);
 
-  setSpeedAngle(newSpeedAngle);
-  setSpeedVal(newSpeedVal);
+      setSpeedAngle(newSpeedAngle);
+      setSpeedVal(newSpeedVal);
+    }
 }

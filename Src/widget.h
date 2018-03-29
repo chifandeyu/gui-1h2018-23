@@ -26,7 +26,8 @@ public:
     explicit Widget(QWidget *parent = 0);
      void keyPressEvent(QKeyEvent *event);
      void keyReleaseEvent(QKeyEvent *event);
-    ~Widget();
+     void paintEvent(QPaintEvent *event);
+     ~Widget();
 
 
 private:

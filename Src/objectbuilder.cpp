@@ -31,7 +31,7 @@ Object::cloud ObjectBuilder::generateAsteroidPoints(size_t size) {
   qreal rand_angle;
   qreal rand_rad;
   for (int i = 0; i < N; i++) {
-    rand_angle = 2*M_PI/(rand() % 100);
+    rand_angle = 2*M_PI*((qreal)rand() / RAND_MAX);
     rand_rad = ((qreal)rand() / RAND_MAX)*rad;
     x = size * cos(angle*i) + rand_rad * cos(rand_angle) - size/2;
     y = size * sin(angle*i) + rand_rad * sin(rand_angle) - size/2;

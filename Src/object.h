@@ -9,7 +9,7 @@ enum dirType { LEFT = -1, STAY = 0, RIGHT = 1};
 
 class Object {
 public:
-  const int DEF_R_A_SPEED = 0.1;
+
   typedef QPointF point;
   typedef std::vector<point> cloud;
 
@@ -18,9 +18,7 @@ public:
          qreal speedVal)
     :_pos(point(x,y))
     ,_speedVal(speedVal)
-    ,_speedAngle(speedAngle)
-    ,_rotateDir(STAY)
-    ,_rotateAngleSpeed(DEF_R_A_SPEED){
+    ,_speedAngle(speedAngle) {
   }
 
  Object(qreal x, qreal y)
@@ -37,10 +35,6 @@ public:
 
   qreal getSpeedAngle() const;
 
-  dirType getRotateDir() const;
-
-  qreal getRotateAngleSpeed() const;
-
   cloud getPointCloud() {
     return _pointCloud;
   }
@@ -48,17 +42,15 @@ public:
 
   void setPos(point pos);
 
-  void setPos(qreal x, qreal y);
+  void setPos(qreal x, qreal y) {
+    _pos = point(x, y);
+  }
 
   void setSpeedVal(qreal val) {
     _speedVal = val;
   }
 
   void setSpeedAngle(qreal angle);
-
-  void setRotateDir(dirType dir);
-
-  void setRotateAngleSpeed(qreal speed);
 
   void setPointCloud(cloud points) {
     _pointCloud = points;
@@ -83,8 +75,6 @@ protected:
   qreal _speedVal;
   qreal _speedAngle;
 
-  dirType _rotateDir;
-  qreal _rotateAngleSpeed;
 };
 
 #endif // OBJECT_H
