@@ -21,6 +21,10 @@ private slots:
 private:
    Ui::gameScore *ui;
 
+signals:
+    void firstWindow();
+
+
 };
 
 #endif // GAMESCORE_H

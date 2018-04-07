@@ -20,7 +20,7 @@ class Widget;
 
 class Widget : public QWidget
 {
-   // Q_OBJECT
+    Q_OBJECT
 
 public:
     explicit Widget(QWidget *parent = 0);
@@ -32,12 +32,15 @@ public:
 
 private:
     Ui::Widget      *ui;
-    QGraphicsScene  *scene;
-    TestModel       *model;
+   // QGraphicsScene  *scene;
+   // TestModel       *model;
     std::shared_ptr<QTimer>          timer;
     std::shared_ptr<State>          _state;
     std::shared_ptr<Controller> _controller;
     std::shared_ptr<ObjectPainter> _objectPainter;
+
+signals:
+    void firstWindow();
 
 };
 

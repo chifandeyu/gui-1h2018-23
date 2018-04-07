@@ -16,5 +16,6 @@ gameScore::~gameScore()
 
 void gameScore::on_pushButton_clicked()
 {
-
+    this->close();
+    emit firstWindow();
 }
