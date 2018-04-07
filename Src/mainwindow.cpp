@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    _gamescore = std::shared_ptr<gameScore>  (new gameScore);
+    connect(_gamescore.get(),&gameScore::firstWindow,this,&MainWindow::show);
 
 }
 
@@ -25,8 +27,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    _gamescore = std::shared_ptr<gameScore>  (new gameScore);
-    connect(_gamescore.get(),&gameScore::firstWindow,this,&MainWindow::show);
+    
     _gamescore->show();
     this->close();
 }
