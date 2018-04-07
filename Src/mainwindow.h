@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <widget.h>
+#include <gamescore.h>
 namespace Ui {
 class MainWindow;
 }
@@ -15,8 +16,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
+    std::shared_ptr<Widget> _widget ;
+    std::shared_ptr <gameScore> _gamescore;
+
 };
 
 #endif // MAINWINDOW_H
