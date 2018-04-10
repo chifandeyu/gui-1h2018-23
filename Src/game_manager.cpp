@@ -1,13 +1,16 @@
 #define _USE_MATH_DEFINES
 
 #include "game_manager.h"
+#include "ship.h"
 #include "state.h"
+#include "gtools.h"
 #include <ctime>
 #include <cmath>
 #include <QPoint>
 #include <algorithm>
 
 void GameManager::initGame() {
+  _state->timeShot = std::chrono::high_resolution_clock::now();
   _state->width = 800;
   _state->height = 600;
   _state->scale = 8;
@@ -27,11 +30,11 @@ State::object_vec GameManager::generateAsteroids(state_ptr state) {
   double x, y, t, speedVal, speedAngle;
 
   for (int i = 0; i < N; i++) {
-    t = (rand()%10000)/10000.0 * 2 * M_PI;
+    t = gTools::random(0, 2 * M_PI);
     x = state->width / 2 * cos(t) + state->width / 2;
     y = state->height / 2 * sin(t) + state->height / 2;
-    speedVal = 2 + (rand()%10000)/10000.0 * (3-2);
-    speedAngle = (rand()%10000)/10000.0 * 2 * M_PI;
+    speedVal = gTools::random(2, 3);
+    speedAngle = gTools::random(0, 2 * M_PI);
 
     State::object_ptr a = _builder.makeAsteroid(x, y, 3);
     a->setSpeedVal(speedVal);
@@ -113,18 +116,23 @@ void GameManager::turnOffRotateRight() {
 
 
 void GameManager::strike() {
-  auto ship = _state->ship;
-  auto pos = ship->getPos();
-  auto angle = ship->getAccAngle();
+  if (_state->bullets.size() < 5
+      && (gTools::timeLeft(_state->timeShot) > gTools::STRIKE_BREAK)) {
+    _state->timeShot = std::chrono::high_resolution_clock::now();
+    auto ship = _state->ship;
+    auto pos = ship->getPos();
+    auto angle = ship->getAccAngle();
 
-  auto bullet = _builder.makeBullet(pos.x()+cos(angle),
-                                    pos.y()+sin(angle));
+    auto bullet = _builder.makeBullet(pos.x()+cos(angle),
+                                      pos.y()+sin(angle));
 
-  bullet->setSpeedVal(4);
-  bullet->setSpeedAngle(ship->getAccAngle());
+    auto sum = sumVector(ship->getAccAngle(), 4,
+                         ship->getSpeedAngle(), ship->getSpeedVal());
+    bullet->setSpeedVal(sum.second);
+    bullet->setSpeedAngle(sum.first);
 
-  _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));
-
+    _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));
+  }
 }
 
 void GameManager::updateCollision(GameManager::state_ptr state) {
@@ -143,7 +151,7 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
     for (int i = 0; i < bullets.size(); i++) {
       if (isCollision(bullets[i], o)) {
         destroyBullet(i);
-        breakAsteroid(newAsteroids, o);
+        breakAsteroid(newAsteroids, o, bullets[i]);
         return true;
       }
     }
@@ -161,6 +169,7 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
 }
 
 void GameManager::breakShip() {
+
   _state->ship->setPos(Object::point(55,55));
 }
 
@@ -168,17 +177,41 @@ void GameManager::destroyBullet(int i) {
   _state->bullets.erase(_state->bullets.begin()+i);
 }
 
-void GameManager::breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object) {
+void GameManager::breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object, State::object_ptr bullet) {
   if (object->getSize() > 1.5) {
+    int mass = gTools::BULLET_MASS;
+    auto sum = sumVector(object->getSpeedAngle(), object->getSpeedVal(),
+                         bullet->getSpeedAngle(), mass*bullet->getSpeedVal());
     State::object_ptr ast1 = _builder.makeAsteroid(object->getPos().x(),
                                                    object->getPos().y(),
                                                    object->getSize()-1);
+    ast1->setSpeedAngle(Object().normAngle(sum.first-0.2));
+    ast1->setSpeedVal(sum.second);
+
+    State::object_ptr ast2 = _builder.makeAsteroid(object->getPos().x(),
+                                                   object->getPos().y(),
+                                                   object->getSize()-1);
+    ast2->setSpeedAngle(Object().normAngle(sum.first+0.2));
+    ast2->setSpeedVal(sum.second);
+
     newAsteroids.push_back(ast1);
-    newAsteroids.push_back(_builder.makeAsteroid(object->getPos().x()-22, object->getPos().y(), object->getSize()-1));
+    newAsteroids.push_back(ast2);
   }
 }
 
 bool GameManager::isCollision(State::object_ptr o1, State::object_ptr o2) {
   Object::point o = (o1->getPos())-(o2->getPos());
   return sqrt(o.x()*o.x() + o.y() * o.y()) < (o1->getSize()+o2->getSize())*_state->scale;
+}
+
+std::pair<qreal, qreal> GameManager::sumVector(qreal angle1, qreal val1, qreal angle2, qreal val2) {
+  qreal x = val1 * cos(angle1) + val2 * cos(angle2);
+  qreal y = val1 * sin(angle1) + val2 * sin(angle2);
+
+
+  qreal newSpeedVal = sqrt(pow(x, 2) + pow(y, 2));
+  qreal newSpeedAngle = atan2(y,x);
+
+
+  return std::pair<qreal, qreal>(newSpeedAngle, newSpeedVal);
 }

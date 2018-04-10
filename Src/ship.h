@@ -2,6 +2,7 @@
 #define SHIP_H
 
 #include "object.h"
+#include "gtools.h"
 #include <QImage>
 
 class Ship : public Object {
@@ -9,11 +10,11 @@ class Ship : public Object {
 
   Ship(int x, int y)
     :Object(x, y)
-    ,_accVal(0.4)
+    ,_accVal(gTools::SHIP_DEF_ACC_VAL)
     ,_accAngle(0)
     ,_isAcc(false)
     ,_rotateDir(STAY)
-    ,_rotateAngleSpeed(0.1){
+    ,_rotateAngleSpeed(gTools::SHIP_DEF_ROTATE_ANGLE_SPEED){
     _pointCloud = Object::cloud({
           Object::point(1, 0),
           Object::point(-1, 1),

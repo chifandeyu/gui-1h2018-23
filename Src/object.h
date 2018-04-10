@@ -64,6 +64,8 @@ public:
     _size = size;
   }
 
+  qreal normAngle(qreal angle);
+
 
   virtual void update();
 protected:
@@ -72,7 +74,6 @@ protected:
 
   void updateRotate();
 
-  qreal normAngle(qreal angle);
 
 
 

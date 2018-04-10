@@ -36,7 +36,8 @@ SOURCES += \
     objectpainter.cpp \
     objectbuilder.cpp \
     controller.cpp \
-    bullet.cpp
+    bullet.cpp \
+    gtools.cpp
 
 HEADERS += \
     game_manager.h \
@@ -49,7 +50,8 @@ HEADERS += \
     objectpainter.h \
     objectbuilder.h \
     controller.h \
-    bullet.h
+    bullet.h \
+    gtools.h
 
 FORMS += \
         mainwindow.ui \
