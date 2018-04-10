@@ -37,6 +37,7 @@ SOURCES += \
     objectbuilder.cpp \
     controller.cpp \
     bullet.cpp \
+    gamescore.cpp \
     gtools.cpp
 
 HEADERS += \
@@ -51,8 +52,10 @@ HEADERS += \
     objectbuilder.h \
     controller.h \
     bullet.h \
+    gamescore.h \
     gtools.h
 
 FORMS += \
         mainwindow.ui \
-    widget.ui
+    widget.ui \
+    gamescore.ui

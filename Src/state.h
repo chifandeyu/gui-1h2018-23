@@ -40,6 +40,7 @@ struct State {
   int life;
 
   ship_ptr ship;
+  time dethTime;
   bullet_vec bullets;
   object_vec objects;
 

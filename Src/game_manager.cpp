@@ -11,6 +11,7 @@
 
 void GameManager::initGame() {
   _state->timeShot = std::chrono::high_resolution_clock::now();
+  _state->dethTime = std::chrono::high_resolution_clock::now();
   _state->width = 800;
   _state->height = 600;
   _state->scale = 8;
