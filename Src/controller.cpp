@@ -26,6 +26,7 @@ void Controller::keyPressEvent(QKeyEvent *event) {
     case Qt::Key_Space:
         _manager.strike();
         break;
+
     default:
         break;
     }

@@ -9,9 +9,13 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <ctime>
+#include <ratio>
+#include <chrono>
 
 struct State {
 
+  typedef std::chrono::high_resolution_clock::time_point time;
   typedef std::shared_ptr<Ship> ship_ptr;
   typedef std::shared_ptr<Object> object_ptr;
   typedef std::vector<object_ptr> object_vec;
@@ -36,6 +40,7 @@ struct State {
   int life;
 
   ship_ptr ship;
+  time dethTime;
   bullet_vec bullets;
   object_vec objects;
 
@@ -44,6 +49,9 @@ struct State {
 
   // Размеры поля
   int height, width;
+
+  // Время последнего выстрела
+  time timeShot;
 
  private:
 

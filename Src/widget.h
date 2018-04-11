@@ -32,7 +32,8 @@ public:
 
 private:
     Ui::Widget      *ui;
-   // QGraphicsScene  *scene;
+    std::shared_ptr <QGraphicsScene>  scene;
+    //QGraphicsScene  *scene;
    // TestModel       *model;
     std::shared_ptr<QTimer>          timer;
     std::shared_ptr<State>          _state;

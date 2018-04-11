@@ -33,8 +33,24 @@ QRectF ObjectPainter::boundingRect() const
     return QRectF(-25,-40,50,80);
 }
 */
+void ObjectPainter::drawLifeBar(std::shared_ptr<State> state, QPainter *painter)
+{
+    painter->drawText(50,50,"life");
+}
+
+void ObjectPainter::drawScoreBar(std::shared_ptr<State> state,QPainter *painter)
+{
+    painter->drawText(350,50,"Score");
+}
 void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+  QRect game_space (0,0,800,600);
+  painter->drawRect(game_space);
+  painter->fillRect(game_space,Qt::black);
+
+  painter->setPen(Qt::white);
+  drawLifeBar(_state,painter);
+  drawScoreBar(_state,painter);
   drawShip(_state->ship, _state, painter);
   drawAsteroids(_state->objects, _state, painter);
   drawBullets(_state->bullets, _state, painter);
@@ -84,6 +100,7 @@ inline void ObjectPainter::drawAsteroid(std::shared_ptr<Object> asteroid, std::s
 
 void ObjectPainter::drawObject(std::shared_ptr<Object> object, std::shared_ptr<State> state, QPainter *painter)
 {
+
     Object::cloud points=object->getPointCloud();
     auto scale = state->scale;
     for (size_t i=0; i<points.size()-1;i++)

@@ -21,9 +21,11 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pushButton_3_clicked();
+
 private:
     Ui::MainWindow *ui;
-    std::shared_ptr<Widget> _widget ;
+    std::shared_ptr<Widget> _widget =nullptr ;
   //Widget *_widget;
   //  gameScore *_gamescore;
     std::shared_ptr <gameScore> _gamescore;

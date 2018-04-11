@@ -43,7 +43,7 @@ public:
 
   void updateCollision(GameManager::state_ptr state);
 
- void breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object);
+ void breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object, State::object_ptr bullet);
 
  bool isCollision(State::object_ptr o1, State::object_ptr o2);
 
@@ -52,6 +52,8 @@ public:
  void breakShip();
 
 private:
+
+ std::pair<qreal, qreal> sumVector(qreal angle1, qreal val1, qreal angle2, qreal val2);
 
   state_ptr _state;
 
