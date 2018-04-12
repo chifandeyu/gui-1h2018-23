@@ -29,6 +29,9 @@ public:
      void paintEvent(QPaintEvent *event);
      ~Widget();
 
+     void newGame() {
+       _controller->startGame();
+     }
 
 private:
     Ui::Widget      *ui;

@@ -33,6 +33,15 @@ QRectF ObjectPainter::boundingRect() const
     return QRectF(-25,-40,50,80);
 }
 */
+void ObjectPainter::drawLifeBar(std::shared_ptr<State> state, QPainter *painter)
+{
+    painter->drawText(50,50,"life");
+}
+
+void ObjectPainter::drawScoreBar(std::shared_ptr<State> state,QPainter *painter)
+{
+    painter->drawText(350,50,"Score");
+}
 void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
   QRect game_space (0,0,800,600);
@@ -40,6 +49,8 @@ void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   painter->fillRect(game_space,Qt::black);
 
   painter->setPen(Qt::white);
+  drawLifeBar(_state,painter);
+  drawScoreBar(_state,painter);
   drawShip(_state->ship, _state, painter);
   drawAsteroids(_state->objects, _state, painter);
   drawBullets(_state->bullets, _state, painter);
@@ -63,11 +74,13 @@ QRectF ObjectPainter::boundingRect() const
 
 
 inline void ObjectPainter::drawShip(std::shared_ptr<Ship> ship, std::shared_ptr<State> state, QPainter *painter) {
-  painter->translate(ship->getPos().x(), ship->getPos().y());
-  painter->rotate(ship->getAccAngle()/2/M_PI * 360);
-  painter->translate(-ship->getPos().x(), -ship->getPos().y());
-  drawObject(std::dynamic_pointer_cast<Object>(ship),  state, painter);
-  painter->resetTransform();
+  if (!(state->flags.at("shipIsDeth"))) {
+      painter->translate(ship->getPos().x(), ship->getPos().y());
+      painter->rotate(ship->getAccAngle()/2/M_PI * 360);
+      painter->translate(-ship->getPos().x(), -ship->getPos().y());
+      drawObject(std::dynamic_pointer_cast<Object>(ship),  state, painter);
+      painter->resetTransform();
+  }
 }
 
 inline void ObjectPainter::drawBullet(State::bullet_ptr object, std::shared_ptr<State> state, QPainter *painter) {

@@ -15,23 +15,23 @@ Widget::Widget(QWidget *parent) :
     this->resize(800,600);
     this->setFixedSize(800,600);
     //scene->backgroundBrush()
-   // QBrush brush;
-   // brush.setColor(Qt::black);
+    // QBrush brush;
+    // brush.setColor(Qt::black);
     //brush.setStyle(Qt::SolidPattern);
-   // scene->backgroundBrush().color().black();
+    // scene->backgroundBrush().color().black();
 
 
-   // ui->graphicsView->setScene(scene);
+    // ui->graphicsView->setScene(scene);
 
-   // std::shared_ptr<QPainter> painter;
-  //  painter->setPen(QPen(Qt::black));
-//    QVector<QPoint> point;//(new QPointF(0,0),  new QPointF(800,0), new QPointF(800,600), new QPointF(0,600));
-//    point.push_back( QPoint (0,0))  ;
-//    point. push_back(QPoint(800,0));
-//    point.push_back( QPoint(800,600));
-//    point.push_back( QPoint(0,600));
-//    QPolygon game_space (*&point);
-//    painter->drawPolygon(game_space);
+    // std::shared_ptr<QPainter> painter;
+    //  painter->setPen(QPen(Qt::black));
+    //    QVector<QPoint> point;//(new QPointF(0,0),  new QPointF(800,0), new QPointF(800,600), new QPointF(0,600));
+    //    point.push_back( QPoint (0,0))  ;
+    //    point. push_back(QPoint(800,0));
+    //    point.push_back( QPoint(800,600));
+    //    point.push_back( QPoint(0,600));
+    //    QPolygon game_space (*&point);
+    //    painter->drawPolygon(game_space);
     // QSignalMapper* signalMapper = new QSignalMapper (this);
     timer = std::shared_ptr<QTimer>(new QTimer());
     connect(timer.get(), &QTimer::timeout, _controller.get(), &Controller::update);
@@ -71,6 +71,15 @@ Widget::Widget(QWidget *parent) :
 void Widget::keyPressEvent(QKeyEvent *event)
 {
     qDebug()<<"KEYPREESD";
+    if(event->key() ==Qt::Key_Escape){
+
+        this->close();
+        // this->~Widget();
+        emit firstWindow();
+
+
+    }
+
     _controller->keyPressEvent(event);
 
 }

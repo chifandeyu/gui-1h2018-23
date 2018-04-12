@@ -11,6 +11,7 @@ namespace gTools {
   extern double SHIP_DEF_MAX_SPEED;
   extern double SHIP_DEF_LIFE;
   extern double STRIKE_BREAK;
+  extern double DEATH_BREAK;
   extern double BULLET_MASS;
 
 

@@ -20,6 +20,17 @@ void GameManager::initGame() {
   _state->life = 3;
   _state->ship = std::dynamic_pointer_cast<Ship>(_builder.makeShip(_state->width/2, _state->height/2));
   _state->objects = generateAsteroids(_state);
+  _state->bullets.erase(_state->bullets.begin(),
+                        _state->bullets.end());
+}
+
+void GameManager::nextLevel() {
+  _state->level++;
+  _state->objects = generateAsteroids(_state);
+  _state->bullets.erase(_state->bullets.begin(),
+                        _state->bullets.end());
+  _state->ship->setSpeedVal(0);
+  _state->ship->setPos(Object::point(_state->width/2, _state->height/2));
 }
 
 State::object_vec GameManager::generateAsteroids(state_ptr state) {
@@ -47,14 +58,24 @@ State::object_vec GameManager::generateAsteroids(state_ptr state) {
 }
 
 void GameManager::update() {
-  updateShip(_state->ship, _state);
-  updateBullets(_state->bullets, _state);
-  updateObjects(_state->objects, _state);
-  updateCollision(_state);
+  if (_state->objects.size() == 0) {
+    nextLevel();
+  } else {
+    updateShip(_state->ship, _state);
+    updateBullets(_state->bullets, _state);
+    updateObjects(_state->objects, _state);
+    updateCollision(_state);
+  }
 }
 
-inline void GameManager::updateShip(State::ship_ptr ship, GameManager::state_ptr state) {
-  updateObject(ship, state);
+void GameManager::updateShip(State::ship_ptr ship, GameManager::state_ptr state) {
+  if (_state->flags.at("shipIsDeth")) {
+    if (gTools::timeLeft(_state->dethTime) > gTools::DEATH_BREAK) {
+      _state->flags.at("shipIsDeth") = false;
+    }
+  } else {
+    updateObject(ship, state);
+  }
 }
 
 void GameManager::updateBullets(State::bullet_vec bullets, GameManager::state_ptr state) {
@@ -117,7 +138,8 @@ void GameManager::turnOffRotateRight() {
 
 
 void GameManager::strike() {
-  if (_state->bullets.size() < 5
+  if (_state->bullets.size() < 6
+      && !(_state->flags.at("shipIsDeth"))
       && (gTools::timeLeft(_state->timeShot) > gTools::STRIKE_BREAK)) {
     _state->timeShot = std::chrono::high_resolution_clock::now();
     auto ship = _state->ship;
@@ -127,10 +149,8 @@ void GameManager::strike() {
     auto bullet = _builder.makeBullet(pos.x()+cos(angle),
                                       pos.y()+sin(angle));
 
-    auto sum = sumVector(ship->getAccAngle(), 4,
-                         ship->getSpeedAngle(), ship->getSpeedVal());
-    bullet->setSpeedVal(sum.second);
-    bullet->setSpeedAngle(sum.first);
+    bullet->setSpeedVal(4);
+    bullet->setSpeedAngle(ship->getAccAngle());
 
     _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));
   }
@@ -144,7 +164,7 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
 
   if (std::any_of(objects.begin(), objects.end(),
                   [this, ship](auto object){
-                    return isCollision(ship, object);
+                    return this->isCollision(ship, object);
                   }))
     breakShip();
 
@@ -170,8 +190,11 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
 }
 
 void GameManager::breakShip() {
-
-  _state->ship->setPos(Object::point(55,55));
+  _state->flags.at("shipIsDeth") = true;
+  _state->dethTime = std::chrono::high_resolution_clock::now();
+  _state->life--;
+  _state->ship->setSpeedVal(0);
+  _state->ship->setPos(Object::point(_state->width/2, _state->height/2));
 }
 
 void GameManager::destroyBullet(int i) {

@@ -19,6 +19,8 @@ public:
   }
   void initGame();
 
+  void nextLevel();
+
   State::object_vec generateAsteroids(state_ptr state);
 
   void update();

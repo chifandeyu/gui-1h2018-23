@@ -11,7 +11,7 @@ State::State()
   :score(0)
   ,life(0)
   ,_keys(std::vector<std::string>
-         ({"isMenu", "isPause",
+         ({"shipIsDeth", "isMenu", "isPause",
            "isGame", "isGameOver"})){
   insertFlagsFalse(_keys);
 }
