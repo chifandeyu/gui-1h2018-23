@@ -4,15 +4,15 @@
 #include <cmath>
 
 
-inline Object::point Object::getPos() const{
+Object::point Object::getPos() const{
   return _pos;
 }
 
-inline qreal Object::getSpeedVal() const {
+qreal Object::getSpeedVal() const {
   return _speedVal;
 }
 
-inline qreal Object::getSpeedAngle() const {
+qreal Object::getSpeedAngle() const {
   return _speedAngle;
 }
 
