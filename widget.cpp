@@ -3,14 +3,50 @@
 #include <typeinfo>
 #include <QSignalMapper>
 #include <QDebug>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QMenu>
+#include <QLabel>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget),
     scene(new QGraphicsScene),
     _state(new State()),
     _controller(new Controller(_state.get())),
-    _objectPainter(new ObjectPainter(_state.get()))
-{
+    _objectPainter(new ObjectPainter(_state.get())),
+    _grid(new  QGridLayout),
+    _menu(createMenu()),
+    pause(true)
+{   //std::shared_ptr<QWidget> rect;
+
+
+    //_grid->addWidget(new Widget,2,2);
+    //    QGroupBox *groupBox = new QGroupBox;
+    //    std::shared_ptr<QVBoxLayout>vbox (new QVBoxLayout);
+    //    vbox->addStretch(1);
+    //    groupBox->setFlat(true);
+    //    groupBox->setLayout(vbox.get());
+    //    QGroupBox *groupBox2 = new QGroupBox;
+    //    std::shared_ptr<QVBoxLayout>vbox2 (new QVBoxLayout);
+    //    vbox2->addStretch(1);
+    //    groupBox2->setFlat(true);
+    //    groupBox2->setLayout(vbox2.get());
+    //vbox->addWidget(checkBox1);
+    // vbox->addWidget(checkBox2);
+    //vbox->addWidget(tristateBox);
+
+
+    //  QGroupBox *menu=createMenu();
+    _grid->addWidget(_menu.get(),1,1);
+    _grid->addWidget(em1,0,0);
+    _grid->addWidget(em2,2,2);
+    em1->show();
+    em2->show();
+    _menu->show();
+    //_menu->setFocus(Qt::MouseFocusReason);
+    _menu->setEnabled(true);
+
+    setLayout(_grid.get());
 
     this->resize(800,600);
     this->setFixedSize(800,600);
@@ -38,7 +74,7 @@ Widget::Widget(QWidget *parent) :
     //connect(timer.get(), &QTimer::timeout, _objectPainter.get(), [&ObjectPainter] { slotGameTimer(_state);});
     connect(timer.get(), &QTimer::timeout,  _objectPainter.get(), [this] { update();});
 
-    timer->start(1000 / 50);
+    //timer->start(1000 / 50);
     //ui->setupUi(this);
     //scene = new QGraphicsScene();
     // add obj
@@ -72,10 +108,26 @@ void Widget::keyPressEvent(QKeyEvent *event)
 {
     qDebug()<<"KEYPREESD";
     if(event->key() ==Qt::Key_Escape){
+        if (!pause) {
+            timer->stop();
+            _menu->show();
+            em1->show();
+            em2->show();
+            pause=true;
+            _menu->setEnabled(true);
 
-        this->close();
-        this->~Widget();
-        emit firstWindow();
+
+        } else {
+            timer->start(1000 / 50);
+            em1->hide();
+            em2->hide();
+            _menu->hide();
+            pause=false;
+            _menu->setEnabled(false);
+        }
+        // this->close();
+        // this->~Widget();
+        //  emit firstWindow();
 
 
     }
@@ -92,6 +144,121 @@ void Widget::keyReleaseEvent(QKeyEvent *event)
 Widget::~Widget()
 {
     delete ui;
+}
+
+QGroupBox *Widget::createMenu()
+{
+    //    QGroupBox *groupBox = new QGroupBox(tr("Non-Exclusive Checkboxes"));
+    //    groupBox->setFlat(true);
+
+    //    QCheckBox *checkBox1 = new QCheckBox(tr("&Checkbox 1"));
+    //    QCheckBox *checkBox2 = new QCheckBox(tr("C&heckbox 2"));
+    //    checkBox2->setChecked(true);
+    //    QCheckBox *tristateBox = new QCheckBox(tr("Tri-&state button"));
+    //    tristateBox->setTristate(true);
+    //    tristateBox->setCheckState(Qt::PartiallyChecked);
+
+    //    QVBoxLayout *vbox = new QVBoxLayout;
+    //    vbox->addWidget(checkBox1);
+    //    vbox->addWidget(checkBox2);
+    //    vbox->addWidget(tristateBox);
+    //    vbox->addStretch(1);
+    //    groupBox->setLayout(vbox);
+
+    //    return groupBox;
+    QGroupBox *groupBox = new QGroupBox();
+    // groupBox->setCheckable(true);
+    //  groupBox->setChecked(true);
+    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
+                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
+                        " font: bold 14px;min-width: 10em;padding: 6px;";
+    QPushButton *startButton=new QPushButton(tr("&Start"));
+    QPushButton *scoreButton=new QPushButton(tr("&GameScore"));
+    QPushButton *quitButton=new QPushButton(tr("&Quit"));
+    connect(startButton,&QPushButton::clicked,this,startGame);
+    connect(scoreButton,&QPushButton::clicked,this,openGameScore);
+    connect(quitButton,&QPushButton::clicked,this,quitGame);
+    //    std::shared_ptr<QPushButton> startButton (  new QPushButton(tr("&Start")));
+    //    std::shared_ptr<QPushButton> scoreButton ( new QPushButton(tr("&GameScore")));
+    //    std::shared_ptr<QPushButton> optionButton ( new QPushButton(tr("&Start")));
+    //    std::shared_ptr<QPushButton> quitButton ( new QPushButton(tr("&Quit")));
+
+    startButton->setStyleSheet(styleSheet);
+    scoreButton->setStyleSheet(styleSheet);
+    quitButton->setStyleSheet(styleSheet);
+    QLabel *lab=new QLabel("made by danilapal and DarkNoys");
+    lab->setStyleSheet(styleSheet);
+
+    //    QPushButton *toggleButton = new QPushButton(tr("&Toggle Button"));
+    //    toggleButton->setCheckable(true);
+    //    toggleButton->setChecked(true);
+    //    QPushButton *flatButton = new QPushButton(tr("&Flat Button"));
+    //    flatButton->setFlat(true);
+
+    //    QPushButton *popupButton = new QPushButton(tr("Pop&up Button"));
+    //    QMenu *menu = new QMenu(this);
+    //    menu->addAction(tr("&First Item"));
+    //    menu->addAction(tr("&Second Item"));
+    //    menu->addAction(tr("&Third Item"));
+    //    menu->addAction(tr("F&ourth Item"));
+    //    popupButton->setMenu(menu);
+
+    //    QAction *newAction = menu->addAction(tr("Submenu"));
+    //    QMenu *subMenu = new QMenu(tr("Popup Submenu"));
+    //    subMenu->addAction(tr("Item 1"));
+    //    subMenu->addAction(tr("Item 2"));
+    //    subMenu->addAction(tr("Item 3"));
+    //    newAction->setMenu(subMenu);
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(startButton);
+    vbox->addWidget(scoreButton);
+    vbox->addWidget(quitButton);
+
+    vbox->addWidget(lab);
+
+    //    vbox->addWidget(toggleButton);
+    //    vbox->addWidget(flatButton);
+    //    vbox->addWidget(popupButton);
+    vbox->addStretch(1);
+    groupBox->setLayout(vbox);
+
+    return groupBox;
+}
+
+void Widget::startGame()
+{
+    qDebug()<<"STARTS";
+    newGame();
+    em1->hide();
+    em2->hide();
+    _menu->hide();
+    _menu->setEnabled(false);
+    timer->start(1000 / 50);
+}
+
+void Widget::openGameScore()
+{
+    qDebug()<<"OpenGameScore";
+}
+
+void Widget::quitGame()
+{
+    exit(0);
+}
+
+QWidget *Widget::EmptyMenu()
+{
+    QWidget *groupBox = new QWidget();
+    // groupBox->setFlat(true);
+
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+
+    vbox->addStretch(1);
+    groupBox->setLayout(vbox);
+
+    return groupBox;
 }
 
 void Widget::paintEvent(QPaintEvent *event)

@@ -14,6 +14,8 @@
 #include <game_manager.h>
 #include <controller.h>
 #include <objectpainter.h>
+#include <QGridLayout>
+#include <QGroupBox>
 namespace Ui {
 class Widget;
 }
@@ -30,6 +32,10 @@ public:
      ~Widget();
 
 
+     void newGame() {
+       _controller->startGame();
+     }
+
 private:
     Ui::Widget      *ui;
     std::shared_ptr <QGraphicsScene>  scene;
@@ -39,6 +45,20 @@ private:
     std::shared_ptr<State>          _state;
     std::shared_ptr<Controller> _controller;
     std::shared_ptr<ObjectPainter> _objectPainter;
+    std::shared_ptr<QGridLayout> _grid ;
+    std::shared_ptr<QGroupBox> _menu;
+    bool pause;
+
+    QWidget *em1 =EmptyMenu();
+    QWidget *em2 =EmptyMenu();
+
+    QWidget *EmptyMenu();
+    QGroupBox *createMenu();
+public slots:
+    void startGame();
+    void openGameScore();
+    void quitGame();
+
 
 signals:
     void firstWindow();

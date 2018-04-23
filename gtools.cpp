@@ -2,13 +2,13 @@
 
 
 namespace gTools {
-  double SHIP_DEF_ACC_VAL = 0.2;
-  double SHIP_DEF_ROTATE_ANGLE_SPEED = 0.15;
+  double SHIP_DEF_ACC_VAL = 0.18;
+  double SHIP_DEF_ROTATE_ANGLE_SPEED = 0.09;
   double SHIP_DEF_MAX_SPEED = 8;
   double SHIP_DEF_LIFE = 3;
   double STRIKE_BREAK = 150;
   double DEATH_BREAK = 2000;
-  double BULLET_MASS = 0.5;
+  double BULLET_MASS = 0.9;
 
 
 

@@ -20,6 +20,7 @@ class Controller : public QObject {
 
   void keyReleaseEvent(QKeyEvent *event);
 
+  void startGame();
 };
 
 #endif // CONTROLLER_H

@@ -10,6 +10,10 @@ void Controller::update() {
     _manager.update();
 }
 
+void Controller::startGame() {
+  _manager.initGame();
+}
+
 void Controller::keyPressEvent(QKeyEvent *event) {
     qDebug()<<"Controller KEY_PRESSED";
     switch(event->key())

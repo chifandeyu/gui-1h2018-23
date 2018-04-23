@@ -59,3 +59,9 @@ FORMS += \
         mainwindow.ui \
     widget.ui \
     gamescore.ui
+
+DISTFILES += \
+    bangMedium.wav
+
+RESOURCES += \
+    gameres.qrc
