@@ -35,12 +35,21 @@ QRectF ObjectPainter::boundingRect() const
 */
 void ObjectPainter::drawLifeBar(std::shared_ptr<State> state, QPainter *painter)
 {
-    painter->drawText(50,50,"life");
+   //painter->drawText(50,50,(QString)(state.get()->life));
+
+    painter->drawText(45,45,"Life");
+    painter->drawText(50,55,QString::number(state->life));
+
+
+
 }
 
 void ObjectPainter::drawScoreBar(std::shared_ptr<State> state,QPainter *painter)
 {
-    painter->drawText(350,50,"Score");
+    //painter->drawText(350,50,(QString) (state.get()->score));
+    painter->drawText(350,40,"Score");
+    painter->drawText(350,50,QString::number(state->score));
+
 }
 void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

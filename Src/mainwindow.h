@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <widget.h>
 #include <gamescore.h>
+#include <QGroupBox>
 namespace Ui {
 class MainWindow;
 }
@@ -29,6 +30,9 @@ private:
   //Widget *_widget;
   //  gameScore *_gamescore;
     std::shared_ptr <gameScore> _gamescore;
+    QGroupBox _main_menu;
+    //QGroupBox _options_menu;
+    QGroupBox _gameScore;
 
 };
 

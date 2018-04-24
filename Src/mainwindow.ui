@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>375</width>
-    <height>315</height>
+    <height>436</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,6 +52,21 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(0, 0, 0);
+
+color:white;
+border: 5px solid white;
+border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: beige;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+
+</string>
+       </property>
        <property name="text">
         <string>START</string>
        </property>
@@ -71,8 +86,8 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>38</height>
+         <width>186</width>
+         <height>83</height>
         </size>
        </property>
       </spacer>
@@ -90,6 +105,39 @@
     </property>
     <property name="text">
      <string>QUIT</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>280</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>240</y>
+      <width>189</width>
+      <height>99</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>280</y>
+      <width>104</width>
+      <height>71</height>
+     </rect>
     </property>
    </widget>
   </widget>

@@ -59,3 +59,8 @@ FORMS += \
         mainwindow.ui \
     widget.ui \
     gamescore.ui
+
+DISTFILES +=
+
+RESOURCES += \
+    res.qrc

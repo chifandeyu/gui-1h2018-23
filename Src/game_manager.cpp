@@ -149,7 +149,7 @@ void GameManager::strike() {
     auto bullet = _builder.makeBullet(pos.x()+cos(angle),
                                       pos.y()+sin(angle));
 
-    bullet->setSpeedVal(4);
+    bullet->setSpeedVal(5);
     bullet->setSpeedAngle(ship->getAccAngle());
 
     _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));
@@ -168,10 +168,10 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
                   }))
     breakShip();
 
-  auto f = [this, bullets, &newAsteroids](State::object_ptr o){
+  auto f = [this, &bullets, &newAsteroids](State::object_ptr o){
     for (int i = 0; i < bullets.size(); i++) {
       if (isCollision(bullets[i], o)) {
-        destroyBullet(i);
+        bullets.erase(bullets.begin()+i);
         breakAsteroid(newAsteroids, o, bullets[i]);
         return true;
       }
@@ -184,6 +184,7 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
                                       f),
                        state->objects.end());
 
+  state->bullets = bullets;
   state->objects.insert(state->objects.end(),
                         newAsteroids.begin(),
                         newAsteroids.end());

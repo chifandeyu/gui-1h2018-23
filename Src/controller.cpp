@@ -6,7 +6,7 @@ Controller::Controller(State* state)
 }
 
 void Controller::update() {
-    qDebug()<<"UPDATE";
+    ///qDebug()<<"UPDATE";
     _manager.update();
 }
 
