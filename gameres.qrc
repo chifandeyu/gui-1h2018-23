@@ -7,7 +7,8 @@
         <file>fire.wav</file>
         <file>thrust.wav</file>
     </qresource>
-    <qresource prefix="/game/gameScore">
+    <qresource prefix="/game/gameScore"/>
+    <qresource prefix="/">
         <file>gameScore.txt</file>
     </qresource>
 </RCC>

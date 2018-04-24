@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QMenu>
 #include <QLabel>
+#include <QTextBlock>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget),
@@ -16,6 +17,7 @@ Widget::Widget(QWidget *parent) :
     _objectPainter(new ObjectPainter(_state.get())),
     _grid(new  QGridLayout),
     _menu(createMenu()),
+    _score(createScoreMenu()),
     pause(true)
 {   //std::shared_ptr<QWidget> rect;
 
@@ -37,13 +39,19 @@ Widget::Widget(QWidget *parent) :
 
 
     //  QGroupBox *menu=createMenu();
+    QWidget *em1 =EmptyMenu();
+    QWidget *em2 =EmptyMenu();
     _grid->addWidget(_menu.get(),1,1);
     _grid->addWidget(em1,0,0);
     _grid->addWidget(em2,2,2);
+    _grid->addWidget(_score.get(),1,1);
     em1->show();
     em2->show();
+    em1->setEnabled(false);
+    em2->setEnabled(false);
+    _score->hide();
+    _score->setEnabled(false);
     _menu->show();
-    //_menu->setFocus(Qt::MouseFocusReason);
     _menu->setEnabled(true);
 
     setLayout(_grid.get());
@@ -110,20 +118,21 @@ void Widget::keyPressEvent(QKeyEvent *event)
     if(event->key() ==Qt::Key_Escape){
         if (!pause) {
             timer->stop();
-            _menu->show();
-            em1->show();
-            em2->show();
-            pause=true;
             _menu->setEnabled(true);
+            _menu->show();
+
+            pause=true;
+
+
 
 
         } else {
-            timer->start(1000 / 50);
-            em1->hide();
-            em2->hide();
-            _menu->hide();
-            pause=false;
             _menu->setEnabled(false);
+            _menu->hide();
+
+
+            pause=false;
+            timer->start(1000 / 50);
         }
         // this->close();
         // this->~Widget();
@@ -148,24 +157,7 @@ Widget::~Widget()
 
 QGroupBox *Widget::createMenu()
 {
-    //    QGroupBox *groupBox = new QGroupBox(tr("Non-Exclusive Checkboxes"));
-    //    groupBox->setFlat(true);
 
-    //    QCheckBox *checkBox1 = new QCheckBox(tr("&Checkbox 1"));
-    //    QCheckBox *checkBox2 = new QCheckBox(tr("C&heckbox 2"));
-    //    checkBox2->setChecked(true);
-    //    QCheckBox *tristateBox = new QCheckBox(tr("Tri-&state button"));
-    //    tristateBox->setTristate(true);
-    //    tristateBox->setCheckState(Qt::PartiallyChecked);
-
-    //    QVBoxLayout *vbox = new QVBoxLayout;
-    //    vbox->addWidget(checkBox1);
-    //    vbox->addWidget(checkBox2);
-    //    vbox->addWidget(tristateBox);
-    //    vbox->addStretch(1);
-    //    groupBox->setLayout(vbox);
-
-    //    return groupBox;
     QGroupBox *groupBox = new QGroupBox();
     // groupBox->setCheckable(true);
     //  groupBox->setChecked(true);
@@ -226,12 +218,37 @@ QGroupBox *Widget::createMenu()
     return groupBox;
 }
 
+QGroupBox *Widget::createScoreMenu()
+{
+    QGroupBox *groupBox = new QGroupBox();
+
+    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
+                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
+                        " font: bold 14px;min-width: 10em;padding: 6px;";
+    QPushButton *backButton=new QPushButton(tr("&Back"));
+    backButton->setStyleSheet(styleSheet);
+    connect(backButton,&QPushButton::clicked,this,backToMaintMenu);
+    QLabel *lab=new QLabel("1.");
+    lab->setStyleSheet(styleSheet);
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+
+    vbox->addWidget(lab);
+    vbox->addWidget(backButton);
+
+
+    vbox->addStretch(1);
+    groupBox->setLayout(vbox);
+
+    return groupBox;
+}
+
 void Widget::startGame()
 {
     qDebug()<<"STARTS";
     newGame();
-    em1->hide();
-    em2->hide();
+    //em1->hide();
+    //em2->hide();
     _menu->hide();
     _menu->setEnabled(false);
     timer->start(1000 / 50);
@@ -240,11 +257,41 @@ void Widget::startGame()
 void Widget::openGameScore()
 {
     qDebug()<<"OpenGameScore";
+    _menu->hide();
+    _menu->setEnabled(false);
+    _score->show();
+    _score->setEnabled(true);
+
+    // _score.reset();
+    // _score.;
+
+
+
+
 }
 
 void Widget::quitGame()
 {
     exit(0);
+}
+
+void Widget::backToMaintMenu()
+{
+    _score->setEnabled(false);
+    _score->hide();
+    _menu->setEnabled(true);
+    _menu->show();
+    QFile file("gameScore.txt") ;
+   // file.open("/:gameScore.txt");
+    if(file.isOpen())
+    {
+    qDebug() << "File is open";
+    } else { qDebug() << "FAIL";}
+    if(QFile::exists("gameScore.txt"))
+    {
+    qDebug() << "Файл существует";
+    }
+
 }
 
 QWidget *Widget::EmptyMenu()

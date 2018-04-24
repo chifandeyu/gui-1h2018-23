@@ -61,7 +61,8 @@ FORMS += \
     gamescore.ui
 
 DISTFILES += \
-    bangMedium.wav
+    bangMedium.wav \
+    gameScore.txt
 
 RESOURCES += \
     gameres.qrc

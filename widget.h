@@ -16,6 +16,7 @@
 #include <objectpainter.h>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QLabel>
 namespace Ui {
 class Widget;
 }
@@ -47,17 +48,19 @@ private:
     std::shared_ptr<ObjectPainter> _objectPainter;
     std::shared_ptr<QGridLayout> _grid ;
     std::shared_ptr<QGroupBox> _menu;
+    std::shared_ptr<QGroupBox> _score;
     bool pause;
 
-    QWidget *em1 =EmptyMenu();
-    QWidget *em2 =EmptyMenu();
+
 
     QWidget *EmptyMenu();
     QGroupBox *createMenu();
-public slots:
+    QGroupBox *createScoreMenu();
+private slots:
     void startGame();
     void openGameScore();
     void quitGame();
+    void backToMaintMenu();
 
 
 signals:
