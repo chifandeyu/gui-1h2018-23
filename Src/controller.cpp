@@ -6,8 +6,12 @@ Controller::Controller(State* state)
 }
 
 void Controller::update() {
-    qDebug()<<"UPDATE";
+    ///qDebug()<<"UPDATE";
     _manager.update();
+}
+
+void Controller::startGame() {
+  _manager.initGame();
 }
 
 void Controller::keyPressEvent(QKeyEvent *event) {

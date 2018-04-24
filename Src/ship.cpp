@@ -75,8 +75,8 @@ void Ship::updateSpeed() {
       qreal y = accVal * sin(accAngle) + speedVal * sin(speedAngle);
 
 
-      qreal newSpeedVal = std::fmod(sqrt(pow(x, 2) + pow(y, 2)),
-                                    gTools::SHIP_DEF_MAX_SPEED);
+      qreal newSpeedVal = std::min(sqrt(pow(x, 2) + pow(y, 2)),
+                                   gTools::SHIP_DEF_MAX_SPEED);
       qreal newSpeedAngle = atan2(y,x);
 
       setSpeedAngle(newSpeedAngle);
