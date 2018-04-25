@@ -5,7 +5,7 @@
 #include <memory>
 #include "state.h"
 #include "objectbuilder.h"
-
+#include <QtMultimedia/QMediaPlayer>
 #include <typeinfo>
 
 class GameManager {
@@ -13,10 +13,7 @@ public:
 
   typedef std::shared_ptr<State> state_ptr;
 
-  GameManager(State* state)
-    :_state(state) {
-    initGame();
-  }
+  GameManager(State* state);
   void initGame();
 
   void nextLevel();
@@ -60,6 +57,9 @@ private:
   state_ptr _state;
 
   ObjectBuilder _builder;
+
+
+
 };
 
 #endif //GAME_MANAGER_H

@@ -5,8 +5,7 @@
 #include <QDebug>
 #include <QCheckBox>
 \
-#include <QMenu>
-
+//#include <QMenu>
 #include <QTextBlock>
 #include <iostream>
 #include <fstream>
@@ -307,7 +306,16 @@ void Widget::openGameScore()
     //update score ....
 
     // read file
+    QFile file(("qrc:/score/score.txt"));
 
+    if(file.isOpen())
+    {
+        qDebug() << "File is open";
+    } else { qDebug() << "FAIL";}
+    if(QFile::exists("qrc:/score.txt"))
+    {
+        qDebug() << "Файл существует";
+    } else {  qDebug() << "Файл НЕ существует";}
     QString score_text="";
     ///
 

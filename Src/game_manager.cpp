@@ -9,9 +9,15 @@
 #include <QPoint>
 #include <algorithm>
 
+GameManager::GameManager(State *state)
+    :_state(state)
+    {
+    initGame();
+}
+
 void GameManager::initGame() {
-  _state->timeShot = std::chrono::high_resolution_clock::now();
-  _state->dethTime = std::chrono::high_resolution_clock::now();
+    _state->timeShot = std::chrono::high_resolution_clock::now();
+    _state->dethTime = std::chrono::high_resolution_clock::now();
   _state->width = 800;
   _state->height = 600;
   _state->scale = 8;
@@ -113,6 +119,15 @@ void GameManager::updateObject(State::object_ptr object, GameManager::state_ptr 
 }
 
 void GameManager::turnOnAcc() {
+     QMediaPlayer *_soundPlayer= new QMediaPlayer();
+    _soundPlayer->setMedia(QUrl("qrc:/sound/thrust.wav"));
+    // play bulletsound
+          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+              _soundPlayer->setPosition(0);
+          }
+          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+              _soundPlayer->play();
+          }
   _state->ship->turnOnAcc();
 }
 
@@ -125,6 +140,7 @@ void GameManager::turnOnRotateRight() {
 }
 
 void GameManager::turnOffAcc() {
+
   _state->ship->turnOffAcc();
 }
 
@@ -138,6 +154,7 @@ void GameManager::turnOffRotateRight() {
 
 
 void GameManager::strike() {
+
   if (_state->bullets.size() < 6
       && !(_state->flags.at("shipIsDeth"))
       && (gTools::timeLeft(_state->timeShot) > gTools::STRIKE_BREAK)) {
@@ -153,6 +170,15 @@ void GameManager::strike() {
     bullet->setSpeedAngle(ship->getAccAngle());
 
     _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));
+    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+    _soundPlayer->setMedia(QUrl("qrc:/sound/fire.wav"));
+    // play bulletsound
+          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+              _soundPlayer->setPosition(0);
+          }
+          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+              _soundPlayer->play();
+          }
   }
 }
 
@@ -191,11 +217,21 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
 }
 
 void GameManager::breakShip() {
+    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
+   // play bulletsound
+         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+             _soundPlayer->setPosition(0);
+         }
+         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+             _soundPlayer->play();
+         }
   _state->flags.at("shipIsDeth") = true;
   _state->dethTime = std::chrono::high_resolution_clock::now();
   _state->life--;
   _state->ship->setSpeedVal(0);
   _state->ship->setPos(Object::point(_state->width/2, _state->height/2));
+
 }
 
 void GameManager::destroyBullet(int i) {
@@ -203,7 +239,17 @@ void GameManager::destroyBullet(int i) {
 }
 
 void GameManager::breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object, State::object_ptr bullet) {
+    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
+   // play bulletsound
+         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+             _soundPlayer->setPosition(0);
+         }
+         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+             _soundPlayer->play();
+         }
   if (object->getSize() > 1.5) {
+
     int mass = gTools::BULLET_MASS;
     auto sum = sumVector(object->getSpeedAngle(), object->getSpeedVal(),
                          bullet->getSpeedAngle(), mass*bullet->getSpeedVal());
@@ -221,7 +267,9 @@ void GameManager::breakAsteroid(State::object_vec &newAsteroids, State::object_p
 
     newAsteroids.push_back(ast1);
     newAsteroids.push_back(ast2);
+
   }
+
 }
 
 bool GameManager::isCollision(State::object_ptr o1, State::object_ptr o2) {
