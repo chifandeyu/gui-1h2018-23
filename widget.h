@@ -36,6 +36,7 @@ public:
      void paintEvent(QPaintEvent *event);
      ~Widget();
 
+
      void newGame() {
        _controller->startGame();
      }
