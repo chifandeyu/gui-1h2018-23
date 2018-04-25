@@ -36,10 +36,6 @@ public:
        _controller->startGame();
      }
 
-     void newGame() {
-       _controller->startGame();
-     }
-
 private:
     Ui::Widget      *ui;
     std::shared_ptr <QGraphicsScene>  scene;

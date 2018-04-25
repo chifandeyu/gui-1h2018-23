@@ -69,6 +69,9 @@ void GameManager::update() {
 }
 
 void GameManager::updateShip(State::ship_ptr ship, GameManager::state_ptr state) {
+  if (_state->flags.at("isGameOver")) {
+    return;
+  }
   if (_state->flags.at("shipIsDeth")) {
     if (gTools::timeLeft(_state->dethTime) > gTools::DEATH_BREAK) {
       _state->flags.at("shipIsDeth") = false;
@@ -162,7 +165,8 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
   State::bullet_vec bullets = state->bullets;
   State::object_vec newAsteroids;
 
-  if (std::any_of(objects.begin(), objects.end(),
+  if (!_state->flags.at("shipIsDeth") &&
+      std::any_of(objects.begin(), objects.end(),
                   [this, ship](auto object){
                     return this->isCollision(ship, object);
                   }))
@@ -196,6 +200,17 @@ void GameManager::breakShip() {
   _state->life--;
   _state->ship->setSpeedVal(0);
   _state->ship->setPos(Object::point(_state->width/2, _state->height/2));
+  if (_state->life < 0) {
+    gameOver();
+  }
+}
+
+void GameManager::gameOver() {
+  _state->flags.at("isGameOver") = true;
+  saveScore();
+}
+
+void GameManager::saveScore() {
 }
 
 void GameManager::destroyBullet(int i) {
