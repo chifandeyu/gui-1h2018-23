@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/sound">
+        <file>bangLarge.wav</file>
+        <file>bangMedium.wav</file>
+        <file>bangSmall.wav</file>
+        <file>extraShip.wav</file>
+        <file>fire.wav</file>
+        <file>thrust.wav</file>
+    </qresource>
+    <qresource prefix="/score">
+        <file>score.txt</file>
+    </qresource>
+</RCC>
