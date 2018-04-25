@@ -17,6 +17,10 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QTextBlock>
+
 namespace Ui {
 class Widget;
 }
@@ -49,14 +53,18 @@ private:
     std::shared_ptr<QGridLayout> _grid ;
     std::shared_ptr<QGroupBox> _menu;
     std::shared_ptr<QGroupBox> _score;
-    std::vector<QLabel> _Scorelabel;
+
     bool pause;
+   // std::shared_ptr<QLabel> lab1;
+    QPushButton *lab1;
+
 
 
 
     QWidget *EmptyMenu();
     QGroupBox *createMenu();
     QGroupBox *createScoreMenu();
+    void updateScore();
 private slots:
     void startGame();
     void openGameScore();
@@ -64,8 +72,10 @@ private slots:
     void backToMaintMenu();
 
 
+
 signals:
     void firstWindow();
+
 
 };
 

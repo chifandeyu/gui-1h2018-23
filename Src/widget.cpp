@@ -4,9 +4,9 @@
 #include <QSignalMapper>
 #include <QDebug>
 #include <QCheckBox>
-#include <QPushButton>
+\
 #include <QMenu>
-#include <QLabel>
+
 #include <QTextBlock>
 #include <iostream>
 #include <fstream>
@@ -20,8 +20,14 @@ Widget::Widget(QWidget *parent) :
     _grid(new  QGridLayout),
     _menu(createMenu()),
     _score(createScoreMenu()),
-    pause(true)
+    pause(true),
+    lab1(new QPushButton(tr("TR")))
 {   //std::shared_ptr<QWidget> rect;
+    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
+                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
+                        " font: bold 14px;min-width: 10em;padding: 6px;";
+    // lab1->setText("TEST");
+    lab1->setStyleSheet(styleSheet);
 
 
     //_grid->addWidget(new Widget,2,2);
@@ -206,6 +212,7 @@ QGroupBox *Widget::createMenu()
     QLabel *lab=new QLabel("made by danilapal and DarkNoys");
     lab->setStyleSheet(styleSheet);
 
+
     //    QPushButton *toggleButton = new QPushButton(tr("&Toggle Button"));
     //    toggleButton->setCheckable(true);
     //    toggleButton->setChecked(true);
@@ -264,8 +271,10 @@ QGroupBox *Widget::createScoreMenu()
 
     QVBoxLayout *vbox = new QVBoxLayout;
 
+    // lab1->setStyleSheet(styleSheet);
     vbox->addWidget(lab);
     vbox->addWidget(backButton);
+    vbox->addWidget(lab1);
 
 
     vbox->addStretch(1);
@@ -274,14 +283,19 @@ QGroupBox *Widget::createScoreMenu()
     return groupBox;
 }
 
+void Widget::updateScore()
+{
+
+}
+
 void Widget::startGame()
 {
     qDebug()<<"STARTS";
     _menu->hide();
     _menu->setEnabled(false);
     newGame();
-    //em1->hide();
-    //em2->hide();
+    pause=false;
+
 
     timer->start(1000 / 50);
 }
@@ -289,11 +303,30 @@ void Widget::startGame()
 void Widget::openGameScore()
 {
     qDebug()<<"OpenGameScore";
+    QMessageBox box;
+    //update score ....
 
-    _menu->hide();
-    _menu->setEnabled(false);
-    _score->show();
-    _score->setEnabled(true);
+    // read file
+
+    QString score_text="";
+    ///
+
+    box.setText(score_text); //PUT QSTRING HERE
+
+    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
+                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
+                        " font: bold 14px;min-width: 10em;padding: 6px;";
+    box.setStyleSheet(styleSheet);
+    box.exec();
+
+
+
+    //    _menu->hide();
+    //    _menu->setEnabled(false);
+    //     updateScore();
+    //    _score->show();
+    //    _score->setEnabled(true);
+
 
     // _score.reset();
     // _score.;
@@ -314,28 +347,28 @@ void Widget::backToMaintMenu()
     _score->hide();
     _menu->setEnabled(true);
     _menu->show();
-   // QFile file;//("/score.txt");
-   // file.open("qrc:/score.txt");
+    // QFile file;//("/score.txt");
+    // file.open("qrc:/score.txt");
 
 
     //if(file.isOpen())
-   // {
-   // qDebug() << "File is open";
-   // } else { qDebug() << "FAIL";}
-//    if(QFile::exists("qrc:/score.txt"))
-//    {
-//    qDebug() << "Файл существует";
-//    } else {  qDebug() << "Файл НЕ существует";}
+    // {
+    // qDebug() << "File is open";
+    // } else { qDebug() << "FAIL";}
+    //    if(QFile::exists("qrc:/score.txt"))
+    //    {
+    //    qDebug() << "Файл существует";
+    //    } else {  qDebug() << "Файл НЕ существует";}
     //file.close();
-    std::ifstream off("score.txt");
+    //    std::ifstream off("score.txt");
 
-   // off.open("pecore.txt");
-    char buff[50];
-    qDebug()<< off.is_open();
+    //   // off.open("pecore.txt");
+    //    char buff[50];
+    //    qDebug()<< off.is_open();
 
-    off>>buff;
-     qDebug()<< buff;
-    off.close();
+    //    off>>buff;
+    //     qDebug()<< buff;
+    //    off.close();
 
 }
 
