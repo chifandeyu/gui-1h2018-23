@@ -273,7 +273,7 @@ QGroupBox *Widget::createScoreMenu()
     // lab1->setStyleSheet(styleSheet);
     vbox->addWidget(lab);
     vbox->addWidget(backButton);
-    vbox->addWidget(lab1);
+    //vbox->addWidget(lab1);
 
 
     vbox->addStretch(1);
