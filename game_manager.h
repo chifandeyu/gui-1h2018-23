@@ -44,10 +44,6 @@ public:
 
  void breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object, State::object_ptr bullet);
 
- void gameOver();
-
- void saveScore();
-
  bool isCollision(State::object_ptr o1, State::object_ptr o2);
 
  void destroyBullet(int i);

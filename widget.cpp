@@ -197,9 +197,9 @@ QGroupBox *Widget::createMenu()
     QPushButton *startButton=new QPushButton(tr("&Start"));
     QPushButton *scoreButton=new QPushButton(tr("&GameScore"));
     QPushButton *quitButton=new QPushButton(tr("&Quit"));
-    connect(startButton,&QPushButton::clicked,this, [this](){startGame();});
-    connect(scoreButton,&QPushButton::clicked,this, [this](){openGameScore();});
-    connect(quitButton,&QPushButton::clicked,this, [this](){quitGame();});
+    connect(startButton,&QPushButton::clicked,this,startGame);
+    connect(scoreButton,&QPushButton::clicked,this,openGameScore);
+    connect(quitButton,&QPushButton::clicked,this,quitGame);
     //    std::shared_ptr<QPushButton> startButton (  new QPushButton(tr("&Start")));
     //    std::shared_ptr<QPushButton> scoreButton ( new QPushButton(tr("&GameScore")));
     //    std::shared_ptr<QPushButton> optionButton ( new QPushButton(tr("&Start")));
@@ -264,7 +264,7 @@ QGroupBox *Widget::createScoreMenu()
                         " font: bold 14px;min-width: 10em;padding: 6px;";
     QPushButton *backButton=new QPushButton(tr("&Back"));
     backButton->setStyleSheet(styleSheet);
-    connect(backButton,&QPushButton::clicked, this, [this](){backToMaintMenu();});
+    connect(backButton,&QPushButton::clicked,this,backToMaintMenu);
     QLabel *lab=new QLabel("1.");
     lab->setStyleSheet(styleSheet);
 
@@ -273,7 +273,7 @@ QGroupBox *Widget::createScoreMenu()
     // lab1->setStyleSheet(styleSheet);
     vbox->addWidget(lab);
     vbox->addWidget(backButton);
-    //vbox->addWidget(lab1);
+    vbox->addWidget(lab1);
 
 
     vbox->addStretch(1);
