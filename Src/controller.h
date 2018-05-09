@@ -12,7 +12,7 @@ class Controller : public QObject {
 
  public:
 
-  Controller(State* state);
+  Controller(State* state, int width, int height);
 
   void update();
 

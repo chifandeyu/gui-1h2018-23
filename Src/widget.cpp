@@ -14,7 +14,7 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget),
     scene(new QGraphicsScene),
     _state(new State()),
-    _controller(new Controller(_state.get())),
+    _controller(new Controller(_state.get(), 800, 600)),
     _objectPainter(new ObjectPainter(_state.get())),
     _grid(new  QGridLayout),
     _menu(createMenu()),
@@ -22,7 +22,9 @@ Widget::Widget(QWidget *parent) :
     _option(createOptionMenu()),
     _gameOverScreen(createGameOverMenu()),
     pause(true),
-    sound(true)
+    sound(true),
+    _w(800),
+    _h(600)
 {
 
     QWidget *em1 =EmptyMenu();
@@ -49,8 +51,9 @@ Widget::Widget(QWidget *parent) :
 
     setLayout(_grid.get());
 
-    this->resize(800,600);
-    this->setFixedSize(800,600);
+    this->resize(_w,_h);
+   // this->setFixedSize(_w,_h);
+
 
     timer = std::shared_ptr<QTimer>(new QTimer());
     connect(timer.get(), &QTimer::timeout, _controller.get(), &Controller::update);
@@ -212,7 +215,8 @@ QGroupBox *Widget::createOptionMenu()
     toggleButton->setStyleSheet(styleSheet);
     QPushButton *popupButton = new QPushButton(tr("Resoulution"));
     QMenu *menu = new QMenu(this);
-    menu->addAction(tr("&First "));
+    QAction *ac1 = new QAction(tr("&First "));
+    menu->addAction(ac1);
     menu->addAction(tr("&Second "));
     menu->addAction(tr("&Third "));
     menu->addAction(tr("&Fourth "));
@@ -220,6 +224,7 @@ QGroupBox *Widget::createOptionMenu()
     popupButton->setStyleSheet(styleSheet);
     menu->setStyleSheet(styleSheet);
     connect(toggleButton,&QPushButton::clicked,[this,toggleButton](){changeSoundPresence(toggleButton);});
+    connect(ac1,&QAction::triggered,this,[this] () {resizeScreen();});
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(toggleButton);
     vbox->addWidget(popupButton);
@@ -296,6 +301,16 @@ void Widget::changeSoundPresence(QPushButton *button)
 
     }
 
+}
+
+void Widget::resizeScreen()
+{
+    _w=1200;
+    _h=1200;
+    this->resize(_w,_h);
+   // this->setFixedSize(_w,_h);
+    _controller->resize(_w,_h);
+    update();
 }
 
 void Widget::startGame()

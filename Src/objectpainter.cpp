@@ -53,7 +53,7 @@ void ObjectPainter::drawScoreBar(std::shared_ptr<State> state,QPainter *painter)
 }
 void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-  QRect game_space (0,0,800,600);
+  QRect game_space (0,0,_state->width,_state->height);
   painter->drawRect(game_space);
   painter->fillRect(game_space,Qt::black);
 

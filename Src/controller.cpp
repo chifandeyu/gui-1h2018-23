@@ -1,12 +1,13 @@
 #include "controller.h"
 #include <QKeyEvent>
 #include <QDebug>
-Controller::Controller(State* state)
+Controller::Controller(State* state, int width, int height)
     :_manager(state) {
+    resize(width,height);
 }
 
 void Controller::update() {
-    ///qDebug()<<"UPDATE";
+
     _manager.update();
 }
 
@@ -15,7 +16,6 @@ void Controller::startGame() {
 }
 
 void Controller::keyPressEvent(QKeyEvent *event) {
-    qDebug()<<"Controller KEY_PRESSED";
     switch(event->key())
     {
     case Qt::Key_Up:
@@ -37,7 +37,7 @@ void Controller::keyPressEvent(QKeyEvent *event) {
 }
 
 void Controller::keyReleaseEvent(QKeyEvent *event) {
-    qDebug()<<"Controller KEY_RELEASED";
+
     switch(event->key())
     {
     case Qt::Key_Up:
