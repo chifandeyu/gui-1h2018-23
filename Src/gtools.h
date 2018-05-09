@@ -3,7 +3,7 @@
 
 #include <chrono>
 #include <random>
-
+#include <QString>
 
 namespace gTools {
   extern double SHIP_DEF_ACC_VAL;
@@ -20,6 +20,10 @@ namespace gTools {
   double random(double left, double right);
 
   int timeLeft(time t);
+
+  void writeScore(std::vector<std::pair<QString,int>> scoreVec);
+
+  std::vector<std::pair<QString,int>> readScore();
 }
 
 

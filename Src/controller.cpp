@@ -57,3 +57,7 @@ void Controller::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
+void Controller::resize(int width, int height) {
+  _manager.resize(width, height);
+}
+

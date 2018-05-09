@@ -23,7 +23,9 @@ Widget::Widget(QWidget *parent) :
     _gameOverScreen(createGameOverMenu()),
     pause(true)//,
   // lab1(new QPushButton(tr("TR")))
-{   //std::shared_ptr<QWidget> rect;
+{
+
+    //std::shared_ptr<QWidget> rect;
     QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
                         "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
                         " font: bold 14px;min-width: 10em;padding: 6px;";

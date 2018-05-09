@@ -1,5 +1,7 @@
 #include "gtools.h"
-
+#include <QString>
+#include <QFile>
+#include <QTextStream>
 
 namespace gTools {
   double SHIP_DEF_ACC_VAL = 0.18;
@@ -23,4 +25,41 @@ namespace gTools {
     return std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now()
                                                       - t).count();
   }
+
+  void writeScore(std::vector<std::pair<QString,int>> scoreVec) {
+    QFile file("score.txt");
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+      QTextStream fileS(&file);
+      for(auto p : scoreVec) {
+        fileS << p.first << " " << p.second << endl;
+      }
+    }
+
+    file.close();
+  }
+
+  std::vector<std::pair<QString,int>> readScore() {
+    std::vector<std::pair<QString,int>> a;
+    QFile file(":/score/score.txt");
+
+    if (file.exists()) {
+      if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+          QTextStream fileS(&file);
+          QString name;
+          int score;
+
+          while(!fileS.atEnd()) {
+            fileS >> name >> score;
+            a.push_back(std::pair<QString,int>(name, score));
+          }
+      }
+    }
+    file.close();
+    return a;
+  }
+
+
 }
+
+
