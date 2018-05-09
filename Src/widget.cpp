@@ -4,7 +4,7 @@
 #include <QSignalMapper>
 #include <QDebug>
 #include <QCheckBox>
-\
+#include <QLineEdit>
 //#include <QMenu>
 #include <QTextBlock>
 #include <iostream>
@@ -19,14 +19,16 @@ Widget::Widget(QWidget *parent) :
     _grid(new  QGridLayout),
     _menu(createMenu()),
     _score(createScoreMenu()),
-    pause(true),
-    lab1(new QPushButton(tr("TR")))
+    _option(createOptionMenu()),
+    _gameOverScreen(createGameOverMenu()),
+    pause(true)//,
+  // lab1(new QPushButton(tr("TR")))
 {   //std::shared_ptr<QWidget> rect;
     QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
                         "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
                         " font: bold 14px;min-width: 10em;padding: 6px;";
     // lab1->setText("TEST");
-    lab1->setStyleSheet(styleSheet);
+    //lab1->setStyleSheet(styleSheet);
 
 
     //_grid->addWidget(new Widget,2,2);
@@ -52,14 +54,21 @@ Widget::Widget(QWidget *parent) :
     _grid->addWidget(em1,0,0);
     _grid->addWidget(em2,2,2);
     _grid->addWidget(_score.get(),1,1);
+    _grid->addWidget(_option.get(),1,1);
+    _grid->addWidget(_gameOverScreen.get(),1,1);
     em1->show();
     em2->show();
     em1->setEnabled(false);
     em2->setEnabled(false);
+    _gameOverScreen->hide();
+    _gameOverScreen->setEnabled(false);
     _score->hide();
     _score->setEnabled(false);
+    _option->hide();
+    _option->setEnabled(false);
     _menu->show();
     _menu->setEnabled(true);
+
 
     setLayout(_grid.get());
 
@@ -196,10 +205,13 @@ QGroupBox *Widget::createMenu()
                         " font: bold 14px;min-width: 10em;padding: 6px;";
     QPushButton *startButton=new QPushButton(tr("&Start"));
     QPushButton *scoreButton=new QPushButton(tr("&GameScore"));
+    QPushButton *optionButon =new QPushButton(tr("&Option"));
     QPushButton *quitButton=new QPushButton(tr("&Quit"));
     connect(startButton,&QPushButton::clicked,this, [this](){startGame();});
     connect(scoreButton,&QPushButton::clicked,this, [this](){openGameScore();});
+    connect(optionButon,&QPushButton::clicked,this, [this](){openOption();});
     connect(quitButton,&QPushButton::clicked,this, [this](){quitGame();});
+
     //    std::shared_ptr<QPushButton> startButton (  new QPushButton(tr("&Start")));
     //    std::shared_ptr<QPushButton> scoreButton ( new QPushButton(tr("&GameScore")));
     //    std::shared_ptr<QPushButton> optionButton ( new QPushButton(tr("&Start")));
@@ -207,6 +219,7 @@ QGroupBox *Widget::createMenu()
 
     startButton->setStyleSheet(styleSheet);
     scoreButton->setStyleSheet(styleSheet);
+    optionButon->setStyleSheet(styleSheet);
     quitButton->setStyleSheet(styleSheet);
     QLabel *lab=new QLabel("made by danilapal and DarkNoys");
     lab->setStyleSheet(styleSheet);
@@ -236,8 +249,8 @@ QGroupBox *Widget::createMenu()
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(startButton);
     vbox->addWidget(scoreButton);
+    vbox->addWidget(optionButon);
     vbox->addWidget(quitButton);
-
     vbox->addWidget(lab);
 
     //    vbox->addWidget(toggleButton);
@@ -266,6 +279,8 @@ QGroupBox *Widget::createScoreMenu()
     backButton->setStyleSheet(styleSheet);
     connect(backButton,&QPushButton::clicked, this, [this](){backToMaintMenu();});
     QLabel *lab=new QLabel("1.");
+
+    //connect(backButton,&QPushButton::clicked,this, [this] (){updateScore(lab);});
     lab->setStyleSheet(styleSheet);
 
     QVBoxLayout *vbox = new QVBoxLayout;
@@ -282,9 +297,84 @@ QGroupBox *Widget::createScoreMenu()
     return groupBox;
 }
 
-void Widget::updateScore()
+QGroupBox *Widget::createOptionMenu()
 {
+    QGroupBox *groupBox = new QGroupBox();
 
+    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
+                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
+                        " font: bold 14px;min-width: 10em;padding: 6px;";
+    QPushButton *backButton=new QPushButton(tr("&Back"));
+    backButton->setStyleSheet(styleSheet);
+    connect(backButton,&QPushButton::clicked, this, [this](){backFromOptionToMaintMenu();});
+    QLabel *lab=new QLabel("1.");
+
+    //connect(backButton,&QPushButton::clicked,this, [this] (){updateScore(lab);});
+    lab->setStyleSheet(styleSheet);
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+
+    // lab1->setStyleSheet(styleSheet);
+    vbox->addWidget(lab);
+    vbox->addWidget(backButton);
+    //vbox->addWidget(lab1);
+
+
+    vbox->addStretch(1);
+    groupBox->setLayout(vbox);
+
+    return groupBox;
+}
+
+QGroupBox *Widget::createGameOverMenu()
+{
+    QGroupBox *groupBox = new QGroupBox();
+
+    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
+                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
+                        " font: bold 14px;min-width: 10em;padding: 6px;";
+
+    QLabel *lab=new QLabel("GAME OVER");
+   QLineEdit *line=new QLineEdit;
+    //connect(backButton,&QPushButton::clicked,this, [this] (){updateScore(lab);});
+    line->setStyleSheet(styleSheet);
+    connect(line,&QLineEdit::editingFinished,this,[this] (){backToMaintMenuAfterGameOver();});
+    lab->setStyleSheet(styleSheet);
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+
+    // lab1->setStyleSheet(styleSheet);
+    vbox->addWidget(lab);
+    vbox->addWidget(line);
+
+
+
+    vbox->addStretch(1);
+    groupBox->setLayout(vbox);
+      return groupBox;
+}
+
+void Widget::openGameOverScroe()
+{
+    _menu->hide();
+    _menu->setEnabled(false);
+    //updateScore();
+    _gameOverScreen->show();
+    _gameOverScreen->setEnabled(true);
+}
+
+void Widget::updateScore(QLabel *lab)
+{
+    n++;
+    lab->setText(QString::number(n));
+}
+
+void Widget::backToMaintMenuAfterGameOver()
+{
+    _gameOverScreen->setEnabled(false);
+    _gameOverScreen->hide();
+    _menu->setEnabled(true);
+    _menu->show();
 }
 
 void Widget::startGame()
@@ -301,39 +391,39 @@ void Widget::startGame()
 
 void Widget::openGameScore()
 {
-    qDebug()<<"OpenGameScore";
-    QMessageBox box;
-    //update score ....
+    //    qDebug()<<"OpenGameScore";
+    //    QMessageBox box;
+    //    //update score ....
 
-    // read file
-    QFile file(("qrc:/score/score.txt"));
+    //    // read file
+    //    QFile file(("qrc:/score/score.txt"));
 
-    if(file.isOpen())
-    {
-        qDebug() << "File is open";
-    } else { qDebug() << "FAIL";}
-    if(QFile::exists("qrc:/score.txt"))
-    {
-        qDebug() << "Файл существует";
-    } else {  qDebug() << "Файл НЕ существует";}
-    QString score_text="";
-    ///
+    //    if(file.isOpen())
+    //    {
+    //        qDebug() << "File is open";
+    //    } else { qDebug() << "FAIL";}
+    //    if(QFile::exists("qrc:/score.txt"))
+    //    {
+    //        qDebug() << "Файл существует";
+    //    } else {  qDebug() << "Файл НЕ существует";}
+    //    QString score_text="";
+    //    ///
 
-    box.setText(score_text); //PUT QSTRING HERE
+    //    box.setText(score_text); //PUT QSTRING HERE
 
-    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
-                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
-                        " font: bold 14px;min-width: 10em;padding: 6px;";
-    box.setStyleSheet(styleSheet);
-    box.exec();
+    //    QString styleSheet ="background-color:rgb(0, 0, 0);color:white;"
+    //                        "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
+    //                        " font: bold 14px;min-width: 10em;padding: 6px;";
+    //    box.setStyleSheet(styleSheet);
+    //    box.exec();
 
 
 
-    //    _menu->hide();
-    //    _menu->setEnabled(false);
-    //     updateScore();
-    //    _score->show();
-    //    _score->setEnabled(true);
+    _menu->hide();
+    _menu->setEnabled(false);
+    //updateScore();
+    _score->show();
+    _score->setEnabled(true);
 
 
     // _score.reset();
@@ -342,6 +432,15 @@ void Widget::openGameScore()
 
 
 
+}
+
+void Widget::openOption()
+{
+    _menu->hide();
+    _menu->setEnabled(false);
+    //updateScore();
+    _option->show();
+    _option->setEnabled(true);
 }
 
 void Widget::quitGame()
@@ -378,6 +477,14 @@ void Widget::backToMaintMenu()
     //     qDebug()<< buff;
     //    off.close();
 
+}
+
+void Widget::backFromOptionToMaintMenu()
+{
+    _option->setEnabled(false);
+    _option->hide();
+    _menu->setEnabled(true);
+    _menu->show();
 }
 
 QWidget *Widget::EmptyMenu()

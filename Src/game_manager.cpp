@@ -122,16 +122,17 @@ void GameManager::updateObject(State::object_ptr object, GameManager::state_ptr 
 }
 
 void GameManager::turnOnAcc() {
-     QMediaPlayer *_soundPlayer= new QMediaPlayer();
-    _soundPlayer->setMedia(QUrl("qrc:/sound/thrust.wav"));
-    // play bulletsound
-          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-              _soundPlayer->setPosition(0);
-          }
-          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-              _soundPlayer->play();
-          }
+
   _state->ship->turnOnAcc();
+//      std::shared_ptr <QMediaPlayer>_soundPlayer (new QMediaPlayer());
+//      _soundPlayer->setMedia(QUrl("qrc:/sound/thrust.wav"));
+//      // play bulletsound
+//            if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//                _soundPlayer->setPosition(0);
+//            }
+//            else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//                _soundPlayer->play();
+//            }
 }
 
 void GameManager::turnOnRotateLeft() {
@@ -173,15 +174,15 @@ void GameManager::strike() {
     bullet->setSpeedAngle(ship->getAccAngle());
 
     _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));
-    QMediaPlayer *_soundPlayer= new QMediaPlayer();
-    _soundPlayer->setMedia(QUrl("qrc:/sound/fire.wav"));
-    // play bulletsound
-          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-              _soundPlayer->setPosition(0);
-          }
-          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-              _soundPlayer->play();
-          }
+//    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+//    _soundPlayer->setMedia(QUrl("qrc:/sound/fire.wav"));
+//    // play bulletsound
+//          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//              _soundPlayer->setPosition(0);
+//          }
+//          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//              _soundPlayer->play();
+//          }
   }
 }
 
@@ -221,15 +222,15 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
 }
 
 void GameManager::breakShip() {
-    QMediaPlayer *_soundPlayer= new QMediaPlayer();
-   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
-   // play bulletsound
-         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-             _soundPlayer->setPosition(0);
-         }
-         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-             _soundPlayer->play();
-         }
+//    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+//   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
+//   // play bulletsound
+//         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//             _soundPlayer->setPosition(0);
+//         }
+//         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//             _soundPlayer->play();
+//         }
   _state->flags.at("shipIsDeth") = true;
   _state->dethTime = std::chrono::high_resolution_clock::now();
   _state->life--;
@@ -253,15 +254,15 @@ void GameManager::destroyBullet(int i) {
 }
 
 void GameManager::breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object, State::object_ptr bullet) {
-    QMediaPlayer *_soundPlayer= new QMediaPlayer();
-   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
-   // play bulletsound
-         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-             _soundPlayer->setPosition(0);
-         }
-         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-             _soundPlayer->play();
-         }
+//    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+//   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
+//   // play bulletsound
+//         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//             _soundPlayer->setPosition(0);
+//         }
+//         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//             _soundPlayer->play();
+//         }
   if (object->getSize() > 1.5) {
 
     int mass = gTools::BULLET_MASS;
