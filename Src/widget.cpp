@@ -21,10 +21,11 @@ Widget::Widget(QWidget *parent) :
     _score(createScoreMenu()),
     _option(createOptionMenu()),
     _gameOverScreen(createGameOverMenu()),
-    pause(true),
+    pause(false),
     sound(true),
     _w(800),
     _h(600)
+
 {
 
     QWidget *em1 =EmptyMenu();
@@ -269,7 +270,7 @@ QGroupBox *Widget::createGameOverMenu()
     return groupBox;
 }
 
-void Widget::openGameOverScroe()
+void Widget::openGameOverScreen()
 {
     _menu->hide();
     _menu->setEnabled(false);
@@ -296,10 +297,12 @@ void Widget::updateScore(QLabel *lab)
 
 void Widget::backToMaintMenuAfterGameOver()
 {
+    qDebug()<<"WORKS ?";
     _gameOverScreen->setEnabled(false);
     _gameOverScreen->hide();
     _menu->setEnabled(true);
     _menu->show();
+
 }
 
 void Widget::changeSoundPresence(QPushButton *button)
@@ -331,10 +334,11 @@ void Widget::startGame()
     qDebug()<<"STARTS";
     _menu->hide();
     _menu->setEnabled(false);
-    newGame();
     pause=false;
-    timer->start(1000 / 50);
-    // _gameOverScreen->show();
+    newGame();
+
+   timer->start(1000 / 50);
+     //_gameOverScreen->show();
     // _gameOverScreen->setEnabled(true);
 
 }
@@ -391,7 +395,15 @@ QWidget *Widget::EmptyMenu()
 
 void Widget::paintEvent(QPaintEvent *event)
 {
+
     QPainter painter(this);
     _objectPainter->paint(&painter, nullptr, this);
+
+    if ((_state->flags.at("isGameOver")) && (!pause)) {
+        pause=true;
+        timer->stop();
+        openGameOverScreen();
+         update();
+    }
 
 }

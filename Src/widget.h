@@ -55,9 +55,11 @@ private:
 
     bool pause;
     bool sound;
+
     int n =1;
     size_t _w;
     size_t _h;
+
 
     QWidget *EmptyMenu();
     QGroupBox *createMenu();
@@ -69,7 +71,7 @@ private:
 
 private slots:
 
-    void openGameOverScroe();
+    void openGameOverScreen();
     void startGame();
     void openGameScore();
     void openOption();
