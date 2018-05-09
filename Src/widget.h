@@ -55,6 +55,7 @@ private:
     std::shared_ptr<QGroupBox> _option;
     std::shared_ptr<QGroupBox> _gameOverScreen;
     bool pause;
+    bool sound;
     int n =1;
    // std::shared_ptr<QLabel> lab1;
     //QPushButton *lab1;
@@ -80,12 +81,15 @@ private slots:
     void backFromOptionToMaintMenu();
      void updateScore(QLabel *lab);
      void backToMaintMenuAfterGameOver();
+     void changeSoundPresence(QPushButton *button);
 
 
 
 signals:
     void firstWindow();
     void gameOver();
+    void openScore();
+
 
 
 };
