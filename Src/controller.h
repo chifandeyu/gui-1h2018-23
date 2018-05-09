@@ -21,6 +21,9 @@ class Controller : public QObject {
   void keyReleaseEvent(QKeyEvent *event);
 
   void startGame();
+
+  void resize(int width, int height);
+
 };
 
 #endif // CONTROLLER_H
