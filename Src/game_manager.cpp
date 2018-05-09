@@ -75,6 +75,9 @@ void GameManager::update() {
 }
 
 void GameManager::updateShip(State::ship_ptr ship, GameManager::state_ptr state) {
+  if (_state->flags.at("isGameOver")) {
+    return;
+  }
   if (_state->flags.at("shipIsDeth")) {
     if (gTools::timeLeft(_state->dethTime) > gTools::DEATH_BREAK) {
       _state->flags.at("shipIsDeth") = false;
@@ -119,16 +122,17 @@ void GameManager::updateObject(State::object_ptr object, GameManager::state_ptr 
 }
 
 void GameManager::turnOnAcc() {
-     QMediaPlayer *_soundPlayer= new QMediaPlayer();
-    _soundPlayer->setMedia(QUrl("qrc:/sound/thrust.wav"));
-    // play bulletsound
-          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-              _soundPlayer->setPosition(0);
-          }
-          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-              _soundPlayer->play();
-          }
+
   _state->ship->turnOnAcc();
+//      std::shared_ptr <QMediaPlayer>_soundPlayer (new QMediaPlayer());
+//      _soundPlayer->setMedia(QUrl("qrc:/sound/thrust.wav"));
+//      // play bulletsound
+//            if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//                _soundPlayer->setPosition(0);
+//            }
+//            else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//                _soundPlayer->play();
+//            }
 }
 
 void GameManager::turnOnRotateLeft() {
@@ -170,15 +174,15 @@ void GameManager::strike() {
     bullet->setSpeedAngle(ship->getAccAngle());
 
     _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));
-    QMediaPlayer *_soundPlayer= new QMediaPlayer();
-    _soundPlayer->setMedia(QUrl("qrc:/sound/fire.wav"));
-    // play bulletsound
-          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-              _soundPlayer->setPosition(0);
-          }
-          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-              _soundPlayer->play();
-          }
+//    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+//    _soundPlayer->setMedia(QUrl("qrc:/sound/fire.wav"));
+//    // play bulletsound
+//          if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//              _soundPlayer->setPosition(0);
+//          }
+//          else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//              _soundPlayer->play();
+//          }
   }
 }
 
@@ -188,7 +192,8 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
   State::bullet_vec bullets = state->bullets;
   State::object_vec newAsteroids;
 
-  if (std::any_of(objects.begin(), objects.end(),
+  if (!_state->flags.at("shipIsDeth") &&
+      std::any_of(objects.begin(), objects.end(),
                   [this, ship](auto object){
                     return this->isCollision(ship, object);
                   }))
@@ -217,21 +222,31 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
 }
 
 void GameManager::breakShip() {
-    QMediaPlayer *_soundPlayer= new QMediaPlayer();
-   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
-   // play bulletsound
-         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-             _soundPlayer->setPosition(0);
-         }
-         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-             _soundPlayer->play();
-         }
+//    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+//   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
+//   // play bulletsound
+//         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//             _soundPlayer->setPosition(0);
+//         }
+//         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//             _soundPlayer->play();
+//         }
   _state->flags.at("shipIsDeth") = true;
   _state->dethTime = std::chrono::high_resolution_clock::now();
   _state->life--;
   _state->ship->setSpeedVal(0);
   _state->ship->setPos(Object::point(_state->width/2, _state->height/2));
+  if (_state->life < 0) {
+    gameOver();
+  }
+}
 
+void GameManager::gameOver() {
+  _state->flags.at("isGameOver") = true;
+  saveScore();
+}
+
+void GameManager::saveScore() {
 }
 
 void GameManager::destroyBullet(int i) {
@@ -239,15 +254,15 @@ void GameManager::destroyBullet(int i) {
 }
 
 void GameManager::breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object, State::object_ptr bullet) {
-    QMediaPlayer *_soundPlayer= new QMediaPlayer();
-   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
-   // play bulletsound
-         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-             _soundPlayer->setPosition(0);
-         }
-         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-             _soundPlayer->play();
-         }
+//    QMediaPlayer *_soundPlayer= new QMediaPlayer();
+//   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
+//   // play bulletsound
+//         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
+//             _soundPlayer->setPosition(0);
+//         }
+//         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
+//             _soundPlayer->play();
+//         }
   if (object->getSize() > 1.5) {
 
     int mass = gTools::BULLET_MASS;

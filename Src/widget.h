@@ -36,7 +36,6 @@ public:
      void paintEvent(QPaintEvent *event);
      ~Widget();
 
-
      void newGame() {
        _controller->startGame();
      }
@@ -53,10 +52,12 @@ private:
     std::shared_ptr<QGridLayout> _grid ;
     std::shared_ptr<QGroupBox> _menu;
     std::shared_ptr<QGroupBox> _score;
-
+    std::shared_ptr<QGroupBox> _option;
+    std::shared_ptr<QGroupBox> _gameOverScreen;
     bool pause;
+    int n =1;
    // std::shared_ptr<QLabel> lab1;
-    QPushButton *lab1;
+    //QPushButton *lab1;
 
 
 
@@ -64,17 +65,27 @@ private:
     QWidget *EmptyMenu();
     QGroupBox *createMenu();
     QGroupBox *createScoreMenu();
-    void updateScore();
+    QGroupBox *createOptionMenu();
+    QGroupBox *createGameOverMenu();
+
+
+
 private slots:
+    void openGameOverScroe();
     void startGame();
     void openGameScore();
+    void openOption();
     void quitGame();
     void backToMaintMenu();
+    void backFromOptionToMaintMenu();
+     void updateScore(QLabel *lab);
+     void backToMaintMenuAfterGameOver();
 
 
 
 signals:
     void firstWindow();
+    void gameOver();
 
 
 };
