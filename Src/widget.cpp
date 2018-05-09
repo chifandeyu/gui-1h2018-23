@@ -14,7 +14,7 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget),
     scene(new QGraphicsScene),
     _state(new State()),
-    _controller(new Controller(_state.get())),
+    _controller(new Controller(_state.get(), 800, 600)),
     _objectPainter(new ObjectPainter(_state.get())),
     _grid(new  QGridLayout),
     _menu(createMenu()),
@@ -22,7 +22,9 @@ Widget::Widget(QWidget *parent) :
     _option(createOptionMenu()),
     _gameOverScreen(createGameOverMenu()),
     pause(true),
-    sound(true)
+    sound(true),
+    _w(800),
+    _h(600)
 {
 
     QWidget *em1 =EmptyMenu();
@@ -49,8 +51,9 @@ Widget::Widget(QWidget *parent) :
 
     setLayout(_grid.get());
 
-    this->resize(800,600);
-    this->setFixedSize(800,600);
+    this->resize(_w,_h);
+    // this->setFixedSize(_w,_h);
+
 
     timer = std::shared_ptr<QTimer>(new QTimer());
     connect(timer.get(), &QTimer::timeout, _controller.get(), &Controller::update);
@@ -124,7 +127,7 @@ QGroupBox *Widget::createMenu()
     scoreButton->setStyleSheet(styleSheet);
     optionButon->setStyleSheet(styleSheet);
     quitButton->setStyleSheet(styleSheet);
-    QLabel *lab=new QLabel("made by danilapal and DarkNoys");
+    QPushButton *lab=new QPushButton(tr("&Made by danilapal and DarkNoys"));
     lab->setStyleSheet(styleSheet);
 
 
@@ -212,14 +215,26 @@ QGroupBox *Widget::createOptionMenu()
     toggleButton->setStyleSheet(styleSheet);
     QPushButton *popupButton = new QPushButton(tr("Resoulution"));
     QMenu *menu = new QMenu(this);
-    menu->addAction(tr("&First "));
-    menu->addAction(tr("&Second "));
-    menu->addAction(tr("&Third "));
-    menu->addAction(tr("&Fourth "));
+    QAction *ac1 = new QAction(tr("&800 x 600 "));
+    menu->addAction(ac1);
+
+    QAction *ac2 = new QAction(tr("&1280 x 1024"));
+    menu->addAction(ac2);
+
+    QAction *ac3 = new QAction(tr("&1920 x 1080"));
+    menu->addAction(ac3);
+
+    QAction *ac4 = new QAction(tr("&Full screen "));
+    menu->addAction(ac4);
+
     popupButton->setMenu(menu);
     popupButton->setStyleSheet(styleSheet);
     menu->setStyleSheet(styleSheet);
     connect(toggleButton,&QPushButton::clicked,[this,toggleButton](){changeSoundPresence(toggleButton);});
+    connect(ac1,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
+    connect(ac2,&QAction::triggered,this,[this] () {resizeScreen(1280,1024);});
+    connect(ac3,&QAction::triggered,this,[this] () {resizeScreen(1920,1080);});
+    connect(ac4,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(toggleButton);
     vbox->addWidget(popupButton);
@@ -237,7 +252,7 @@ QGroupBox *Widget::createGameOverMenu()
                         "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
                         " font: bold 14px;min-width: 10em;padding: 6px;";
 
-    QLabel *lab=new QLabel("GAME OVER");
+    QPushButton *lab=new QPushButton(tr("&GAME OVER"));
     QLineEdit *line=new QLineEdit;
     //connect(backButton,&QPushButton::clicked,this, [this] (){updateScore(lab);});
     line->setStyleSheet(styleSheet);
@@ -265,14 +280,17 @@ void Widget::openGameOverScroe()
 
 void Widget::updateScore(QLabel *lab)
 {
-    if(QFile::exists(":/score/score.txt"))
-    {
-        qDebug() << "Файл существует";
-    } else {  qDebug() << "Файл НЕ существует";}
-    QFile file(":/score/score.txt");
-
+    //    if(QFile::exists(":/score/score.txt"))
+    //    {
+    //        qDebug() << "Файл существует";
+    //    } else {  qDebug() << "Файл НЕ существует";}
+    //    QFile file(":/score/score.txt");
+    std::vector<std::pair<QString,int>> ScoreTable=gTools::readScore();
     //upd score
-    lab->setText(QString::number(n));
+    QString scoreText="";
+    for  (size_t i=0;i<ScoreTable.size()-1;i++)
+        scoreText+=ScoreTable[i].first+" "+QString::number(ScoreTable[i].second) +"\n";
+    lab->setText(scoreText);
     lab->update();
 }
 
@@ -292,10 +310,20 @@ void Widget::changeSoundPresence(QPushButton *button)
 
     } else {
         sound=true;
-         button->setText(tr("&Sound on"));
+        button->setText(tr("&Sound on"));
 
     }
 
+}
+
+void Widget::resizeScreen(size_t w,size_t h)
+{
+    _w=w;
+    _h=h;
+    this->resize(_w,_h);
+    // this->setFixedSize(_w,_h);
+    _controller->resize(_w,_h);
+    update();
 }
 
 void Widget::startGame()
@@ -306,6 +334,9 @@ void Widget::startGame()
     newGame();
     pause=false;
     timer->start(1000 / 50);
+    // _gameOverScreen->show();
+    // _gameOverScreen->setEnabled(true);
+
 }
 
 void Widget::openGameScore()

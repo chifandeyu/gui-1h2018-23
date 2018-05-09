@@ -31,20 +31,18 @@ class Widget : public QWidget
 
 public:
     explicit Widget(QWidget *parent = 0);
-     void keyPressEvent(QKeyEvent *event);
-     void keyReleaseEvent(QKeyEvent *event);
-     void paintEvent(QPaintEvent *event);
-     ~Widget();
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+    void paintEvent(QPaintEvent *event);
+    ~Widget();
 
-     void newGame() {
-       _controller->startGame();
-     }
+    void newGame() {
+        _controller->startGame();
+    }
 
 private:
     Ui::Widget      *ui;
     std::shared_ptr <QGraphicsScene>  scene;
-    //QGraphicsScene  *scene;
-   // TestModel       *model;
     std::shared_ptr<QTimer>          timer;
     std::shared_ptr<State>          _state;
     std::shared_ptr<Controller> _controller;
@@ -54,14 +52,12 @@ private:
     std::shared_ptr<QGroupBox> _score;
     std::shared_ptr<QGroupBox> _option;
     std::shared_ptr<QGroupBox> _gameOverScreen;
+
     bool pause;
     bool sound;
     int n =1;
-   // std::shared_ptr<QLabel> lab1;
-    //QPushButton *lab1;
-
-
-
+    size_t _w;
+    size_t _h;
 
     QWidget *EmptyMenu();
     QGroupBox *createMenu();
@@ -72,6 +68,7 @@ private:
 
 
 private slots:
+
     void openGameOverScroe();
     void startGame();
     void openGameScore();
@@ -79,9 +76,10 @@ private slots:
     void quitGame();
     void backToMaintMenu();
     void backFromOptionToMaintMenu();
-     void updateScore(QLabel *lab);
-     void backToMaintMenuAfterGameOver();
-     void changeSoundPresence(QPushButton *button);
+    void updateScore(QLabel *lab);
+    void backToMaintMenuAfterGameOver();
+    void changeSoundPresence(QPushButton *button);
+    void resizeScreen(size_t w,size_t h);
 
 
 

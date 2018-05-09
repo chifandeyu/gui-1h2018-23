@@ -1,4 +1,4 @@
-#include "gamescore.h"
+ #include "gamescore.h"
 #include "ui_gamescore.h"
 
 gameScore::gameScore(QWidget *parent) :

@@ -18,8 +18,6 @@ GameManager::GameManager(State *state)
 void GameManager::initGame() {
     _state->timeShot = std::chrono::high_resolution_clock::now();
     _state->dethTime = std::chrono::high_resolution_clock::now();
-  _state->width = 800;
-  _state->height = 600;
   _state->scale = 8;
   _state->level = 1;
   _state->score = 0;
@@ -243,10 +241,12 @@ void GameManager::breakShip() {
 
 void GameManager::gameOver() {
   _state->flags.at("isGameOver") = true;
-  saveScore();
 }
 
-void GameManager::saveScore() {
+void GameManager::saveScore(QString name) {
+  auto scores = gTools::readScore();
+  scores.push_back(std::pair<QString, int>(name, _state->score));
+  gTools::writeScore(scores);
 }
 
 void GameManager::destroyBullet(int i) {
@@ -303,3 +303,11 @@ std::pair<qreal, qreal> GameManager::sumVector(qreal angle1, qreal val1, qreal a
 
   return std::pair<qreal, qreal>(newSpeedAngle, newSpeedVal);
 }
+
+void GameManager::resize(int w, int h) {
+  _state->width = w;
+  _state->height = h;
+}
+
+
+

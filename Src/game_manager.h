@@ -46,13 +46,15 @@ public:
 
  void gameOver();
 
- void saveScore();
+ void saveScore(QString name);
 
  bool isCollision(State::object_ptr o1, State::object_ptr o2);
 
  void destroyBullet(int i);
 
  void breakShip();
+
+ void resize(int width, int height);
 
 private:
 

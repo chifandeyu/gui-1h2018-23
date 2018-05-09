@@ -29,6 +29,7 @@ public:
     void drawAsteroids(State::object_vec objects, std::shared_ptr<State> state, QPainter *painter);
     void drawLifeBar(std::shared_ptr<State> state, QPainter *painter);
     void drawScoreBar(std::shared_ptr<State> state, QPainter *painter);
+    void drawLevelBar(std::shared_ptr<State> state, QPainter *painter);
 signals:
 
 public slots:

@@ -12,7 +12,7 @@ class Controller : public QObject {
 
  public:
 
-  Controller(State* state);
+  Controller(State* state, int width, int height);
 
   void update();
 
@@ -21,6 +21,9 @@ class Controller : public QObject {
   void keyReleaseEvent(QKeyEvent *event);
 
   void startGame();
+
+  void resize(int width, int height);
+
 };
 
 #endif // CONTROLLER_H
