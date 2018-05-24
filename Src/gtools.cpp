@@ -56,6 +56,7 @@ namespace gTools {
       }
     }
     file.close();
+    std::sort(a.begin(),a.end(),[](std::pair<QString,int> a,std::pair<QString,int> b) {return (a.second>b.second);});
     return a;
   }
 

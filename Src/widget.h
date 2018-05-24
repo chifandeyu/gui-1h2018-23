@@ -54,7 +54,7 @@ private:
     std::shared_ptr<QGroupBox> _gameOverScreen;
 
     bool pause;
-    bool sound;
+    bool start;
 
     int n =1;
     size_t _w;
