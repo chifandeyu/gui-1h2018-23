@@ -9,6 +9,7 @@
 #include <QTextBlock>
 #include <iostream>
 #include <fstream>
+#include <QDesktopWidget>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget),
@@ -19,7 +20,7 @@ Widget::Widget(QWidget *parent) :
     _grid(new  QGridLayout),
     _menu(createMenu()),
     _score(createScoreMenu()),
-    _option(createOptionMenu()),
+  //  _option(createOptionMenu()),
     _gameOverScreen(createGameOverMenu()),
     pause(false),
     start(false),
@@ -35,7 +36,7 @@ Widget::Widget(QWidget *parent) :
     _grid->addWidget(em1,0,0);
     _grid->addWidget(em2,2,2);
     _grid->addWidget(_score.get(),1,1);
-    _grid->addWidget(_option.get(),1,1);
+   // _grid->addWidget(_option.get(),1,1);
     _grid->addWidget(_gameOverScreen.get(),1,1);
     em1->show();
     em2->show();
@@ -45,8 +46,8 @@ Widget::Widget(QWidget *parent) :
     _gameOverScreen->setEnabled(false);
     _score->hide();
     _score->setEnabled(false);
-    _option->hide();
-    _option->setEnabled(false);
+    //_option->hide();
+   // _option->setEnabled(false);
     _menu->show();
     _menu->setEnabled(true);
 
@@ -55,6 +56,7 @@ Widget::Widget(QWidget *parent) :
 
     this->resize(_w,_h);
     // this->setFixedSize(_w,_h);
+
 
 
     timer = std::shared_ptr<QTimer>(new QTimer());
@@ -84,16 +86,16 @@ void Widget::keyPressEvent(QKeyEvent *event)
 
     }
 
-    if(event->key() ==Qt::Key_P){
-        if (!pause) {
-            timer->stop();
-            pause=true;
-        } else {
+//    if(event->key() ==Qt::Key_P){
+//        if (!pause) {
+//            timer->stop();
+//            pause=true;
+//        } else {
 
-            pause=false;
-            timer->start(1000 / 50);
-        }
-    }
+//            pause=false;
+//            timer->start(1000 / 50);
+//        }
+//    }
 
     _controller->keyPressEvent(event);
 
@@ -137,12 +139,16 @@ QGroupBox *Widget::createMenu()
     popupButton->setMenu(menu);
     popupButton->setStyleSheet(styleSheet);
     menu->setStyleSheet(styleSheet);
+    QRect rec = QApplication::desktop()->screenGeometry();
+     double height = rec.height();
+     double width = rec.width();
+     qDebug()<<width<<"!@@!"<<height;
 
     connect(ac1,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
     connect(ac2,&QAction::triggered,this,[this] () {resizeScreen(1280,1024);});
     connect(ac3,&QAction::triggered,this,[this] () {resizeScreen(1920,1080);});
-    connect(ac4,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
-
+    connect(ac4,&QAction::triggered,this,[this,height,width] ( ) {resizeScreen(1366,768);});
+    
     connect(startButton,&QPushButton::clicked,this, [this](){startGame();});
     connect(scoreButton,&QPushButton::clicked,this, [this](){openGameScore();});
    // connect(optionButon,&QPushButton::clicked,this, [this](){openOption();});
@@ -258,11 +264,15 @@ QGroupBox *Widget::createOptionMenu()
     popupButton->setMenu(menu);
     popupButton->setStyleSheet(styleSheet);
     menu->setStyleSheet(styleSheet);
+    QRect rec = QApplication::desktop()->screenGeometry();
+     double height = rec.height();
+     double width = rec.width();
+     qDebug()<<width<<"!@@!"<<height;
     connect(toggleButton,&QPushButton::clicked,[this,toggleButton](){changeSoundPresence(toggleButton);});
     connect(ac1,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
     connect(ac2,&QAction::triggered,this,[this] () {resizeScreen(1280,1024);});
     connect(ac3,&QAction::triggered,this,[this] () {resizeScreen(1920,1080);});
-    connect(ac4,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
+    connect(ac4,&QAction::triggered,this,[this,height,width] ( ) {resizeScreen(1366,768);});
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(toggleButton);
     vbox->addWidget(popupButton);
@@ -351,8 +361,11 @@ void Widget::changeSoundPresence(QPushButton *button)
 
 void Widget::resizeScreen(size_t w,size_t h)
 {
+      qDebug()<<w<<"GGG"<<h;
     _w=w;
     _h=h;
+
+
     this->resize(_w,_h);
     // this->setFixedSize(_w,_h);
     _controller->resize(_w,_h);
@@ -390,8 +403,8 @@ void Widget::openOption()
 {
     _menu->hide();
     _menu->setEnabled(false);
-    _option->show();
-    _option->setEnabled(true);
+    //_option->show();
+   // _option->setEnabled(true);
 }
 
 void Widget::quitGame()
@@ -409,8 +422,8 @@ void Widget::backToMaintMenu()
 
 void Widget::backFromOptionToMaintMenu()
 {
-    _option->setEnabled(false);
-    _option->hide();
+    //_option->setEnabled(false);
+   // _option->hide();
     _menu->setEnabled(true);
     _menu->show();
 }
