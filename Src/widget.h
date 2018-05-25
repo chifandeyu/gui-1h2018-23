@@ -55,6 +55,7 @@ private:
 
     bool pause;
     bool start;
+    bool fullScr;
 
     int n =1;
     size_t _w;
@@ -81,7 +82,8 @@ private slots:
     void updateScore(QLabel *lab);
     void backToMaintMenuAfterGameOver();
     void changeSoundPresence(QPushButton *button);
-    void resizeScreen(size_t w,size_t h);
+    void resizeScreen(size_t w,size_t h,bool fullScr=false);
+    void resizeScreen(size_t w,size_t h,QPushButton *button);
 
 
 
