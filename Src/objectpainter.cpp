@@ -37,8 +37,8 @@ void ObjectPainter::drawLifeBar(std::shared_ptr<State> state, QPainter *painter)
 {
    //painter->drawText(50,50,(QString)(state.get()->life));
 
-    painter->drawText(45,45,"Life");
-    painter->drawText(50,55,QString::number(state->life));
+    painter->drawText(45+state->width-800,45,"Life");
+    painter->drawText(50+state->width-800,55,QString::number(state->life));
 
 
 
@@ -47,8 +47,15 @@ void ObjectPainter::drawLifeBar(std::shared_ptr<State> state, QPainter *painter)
 void ObjectPainter::drawScoreBar(std::shared_ptr<State> state,QPainter *painter)
 {
     //painter->drawText(350,50,(QString) (state.get()->score));
-    painter->drawText(350,40,"Score");
-    painter->drawText(350,50,QString::number(state->score));
+    painter->drawText(350+state->width-800,40,"Score");
+    painter->drawText(350+state->width-800,50,QString::number(state->score));
+
+}
+
+void ObjectPainter::drawLevelBar(std::shared_ptr<State> state, QPainter *painter)
+{
+    painter->drawText(400+state->width-800,40,"Level");
+    painter->drawText(400+state->width-800,50,QString::number(state->level));
 
 }
 void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -60,6 +67,7 @@ void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   painter->setPen(Qt::white);
   drawLifeBar(_state,painter);
   drawScoreBar(_state,painter);
+  drawLevelBar(_state,painter);
   drawShip(_state->ship, _state, painter);
   drawAsteroids(_state->objects, _state, painter);
   drawBullets(_state->bullets, _state, painter);

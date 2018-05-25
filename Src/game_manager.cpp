@@ -26,6 +26,7 @@ void GameManager::initGame() {
   _state->objects = generateAsteroids(_state);
   _state->bullets.erase(_state->bullets.begin(),
                         _state->bullets.end());
+  _state->flags.at("isGameOver") = false;
 }
 
 void GameManager::nextLevel() {
@@ -202,6 +203,7 @@ void GameManager::updateCollision(GameManager::state_ptr state) {
       if (isCollision(bullets[i], o)) {
         bullets.erase(bullets.begin()+i);
         breakAsteroid(newAsteroids, o, bullets[i]);
+        this->_state->score++;
         return true;
       }
     }

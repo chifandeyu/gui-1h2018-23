@@ -50,14 +50,16 @@ private:
     std::shared_ptr<QGridLayout> _grid ;
     std::shared_ptr<QGroupBox> _menu;
     std::shared_ptr<QGroupBox> _score;
-    std::shared_ptr<QGroupBox> _option;
+   // std::shared_ptr<QGroupBox> _option;
     std::shared_ptr<QGroupBox> _gameOverScreen;
 
     bool pause;
-    bool sound;
+    bool start;
+
     int n =1;
     size_t _w;
     size_t _h;
+
 
     QWidget *EmptyMenu();
     QGroupBox *createMenu();
@@ -68,7 +70,8 @@ private:
 
 
 private slots:
-    void openGameOverScroe();
+
+    void openGameOverScreen();
     void startGame();
     void openGameScore();
     void openOption();
@@ -78,7 +81,7 @@ private slots:
     void updateScore(QLabel *lab);
     void backToMaintMenuAfterGameOver();
     void changeSoundPresence(QPushButton *button);
-    void resizeScreen();
+    void resizeScreen(size_t w,size_t h,bool fullScr=false);
 
 
 
