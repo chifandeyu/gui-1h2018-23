@@ -24,6 +24,8 @@ class Controller : public QObject {
 
   void resize(int width, int height);
 
+  void writeScore(QString name);
+
 };
 
 #endif // CONTROLLER_H

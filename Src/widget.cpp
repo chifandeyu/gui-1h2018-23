@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <QDesktopWidget>
+#include <QDir>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget),
@@ -298,7 +299,7 @@ QGroupBox *Widget::createGameOverMenu()
     QLineEdit *line=new QLineEdit;
     //connect(backButton,&QPushButton::clicked,this, [this] (){updateScore(lab);});
     line->setStyleSheet(styleSheet);
-    connect(line,&QLineEdit::editingFinished,this,[this] (){backToMaintMenuAfterGameOver();});
+    connect(line,&QLineEdit::returnPressed,this,[this,line] (){backToMaintMenuAfterGameOver(line);});
     lab->setStyleSheet(styleSheet);
     lab2->setStyleSheet(styleSheet);
 
@@ -341,8 +342,22 @@ void Widget::updateScore(QLabel *lab)
     lab->update();
 }
 
-void Widget::backToMaintMenuAfterGameOver()
+void Widget::backToMaintMenuAfterGameOver(QLineEdit *line)
 {
+     qDebug()<<"WHY"<<line->text();
+
+     _controller->writeScore(line->text());
+
+//       QFile file (QDir::currentPath()+"/gameScore.txt");
+//        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//          QTextStream fileS(&file);
+//          fileS<<name<<" "<<_state->score<<"\n";
+////          for(auto p : scoreVec) {
+////            fileS << p.first << " " << p.second << endl;
+////          }
+//        }
+
+//        file.close();
 
     _gameOverScreen->setEnabled(false);
     _gameOverScreen->hide();

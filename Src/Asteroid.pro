@@ -62,7 +62,8 @@ FORMS += \
     gamescore.ui
 
 DISTFILES += \
-    SS.txt
+    SS.txt \
+    gameScore.txt
 
 RESOURCES += \
     res.qrc
