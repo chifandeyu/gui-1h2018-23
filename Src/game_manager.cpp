@@ -18,7 +18,7 @@ GameManager::GameManager(State *state)
 void GameManager::initGame() {
     _state->timeShot = std::chrono::high_resolution_clock::now();
     _state->dethTime = std::chrono::high_resolution_clock::now();
-  _state->scale = 8;
+  _state->scale = 9;
   _state->level = 1;
   _state->score = 0;
   _state->life = 3;
@@ -50,7 +50,7 @@ State::object_vec GameManager::generateAsteroids(state_ptr state) {
     t = gTools::random(0, 2 * M_PI);
     x = state->width / 2 * cos(t) + state->width / 2;
     y = state->height / 2 * sin(t) + state->height / 2;
-    speedVal = gTools::random(2, 3);
+    speedVal = gTools::random(2, 3)+std::pow(2,state->level-1);
     speedAngle = gTools::random(0, 2 * M_PI);
 
     State::object_ptr a = _builder.makeAsteroid(x, y, 3);
@@ -169,7 +169,7 @@ void GameManager::strike() {
     auto bullet = _builder.makeBullet(pos.x()+cos(angle),
                                       pos.y()+sin(angle));
 
-    bullet->setSpeedVal(5);
+    bullet->setSpeedVal(10);
     bullet->setSpeedAngle(ship->getAccAngle());
 
     _state->bullets.push_back(std::dynamic_pointer_cast<Bullet>(bullet));

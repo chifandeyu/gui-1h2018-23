@@ -28,7 +28,7 @@ namespace gTools {
 
   void writeScore(std::vector<std::pair<QString,int>> scoreVec) {
     QFile file("score.txt");
-
+   // QFile file("SS.txt");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
       QTextStream fileS(&file);
       for(auto p : scoreVec) {
@@ -37,12 +37,20 @@ namespace gTools {
     }
 
     file.close();
+
+    QFile file2("SS.txt");
+       if (!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+           return;
+
+       QTextStream out(&file2);
+       out << "The magic number is: " << 49 << "\n";
+       file2.close();
   }
 
   std::vector<std::pair<QString,int>> readScore() {
     std::vector<std::pair<QString,int>> a;
     QFile file(":/score/score.txt");
-
+     // QFile file("SS.txt");
     if (file.exists()) {
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
           QTextStream fileS(&file);

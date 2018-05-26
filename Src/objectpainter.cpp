@@ -83,9 +83,7 @@ void ObjectPainter::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 void ObjectPainter::slotGameTimer()
 {
     std::shared_ptr< QPainter> painter(new QPainter);
-
-    qDebug()<<"paint";
-    qDebug()<<"slotGameTimer";
+;
 }
 
 QRectF ObjectPainter::boundingRect() const

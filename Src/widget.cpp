@@ -269,7 +269,7 @@ QGroupBox *Widget::createOptionMenu()
     QRect rec = QApplication::desktop()->screenGeometry();
     double height = rec.height();
     double width = rec.width();
-    qDebug()<<width<<"!@@!"<<height;
+
     connect(toggleButton,&QPushButton::clicked,[this,toggleButton](){changeSoundPresence(toggleButton);});
     connect(ac1,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
     connect(ac2,&QAction::triggered,this,[this] () {resizeScreen(1280,1024);});
@@ -343,7 +343,7 @@ void Widget::updateScore(QLabel *lab)
 
 void Widget::backToMaintMenuAfterGameOver()
 {
-    qDebug()<<"WORKS ?";
+
     _gameOverScreen->setEnabled(false);
     _gameOverScreen->hide();
     _menu->setEnabled(true);
@@ -408,7 +408,7 @@ void Widget::resizeScreen(size_t w, size_t h, QPushButton *button)
 void Widget::startGame()
 {  if (!start) {
         start=true;
-        qDebug()<<"STARTS";
+
         _menu->hide();
         _menu->setEnabled(false);
         pause=false;
