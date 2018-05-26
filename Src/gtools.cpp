@@ -35,7 +35,7 @@ namespace gTools {
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
       QTextStream fileS(&file);
       for(auto p : scoreVec) {
-          if (p.first!="0")
+          if (p.first.size()!=0)
         fileS << p.first << " " << p.second << endl;
         // fileS << p.first << " " << p.second << "\n";
 
@@ -44,17 +44,6 @@ namespace gTools {
 
     file.close();
 
-    QFile file2(QCoreApplication::applicationDirPath()+"/SS.txt");
-   qDebug()<< QCoreApplication::applicationDirPath();
-       if (!file2.open(QIODevice::WriteOnly | QIODevice::Text)) {
-           qDebug()<<"THIS";
-           return;
-       }
-
-       QTextStream out(&file2);
-       out << "The magic number is: " << 49 << "\n";
-      // file2.write("wwwww");
-       file2.close();
   }
 
   std::vector<std::pair<QString,int>> readScore() {

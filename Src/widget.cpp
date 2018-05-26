@@ -74,22 +74,22 @@ Widget::Widget(QWidget *parent) :
 void Widget::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() ==Qt::Key_Escape){
-        if (!pause) {
-            timer->stop();
-            _menu->setEnabled(true);
-            _menu->show();
+        if (start) {
+            if (!pause) {
+                timer->stop();
+                _menu->setEnabled(true);
+                _menu->show();
 
-            pause=true;
+                pause=true;
 
-        } else {
-            _menu->setEnabled(false);
-            _menu->hide();
+            } else {
+                _menu->setEnabled(false);
+                _menu->hide();
+                pause=false;
+                timer->start(1000 / 50);
+            }
 
-
-            pause=false;
-            timer->start(1000 / 50);
         }
-
     }
 
     //    if(event->key() ==Qt::Key_P){
@@ -344,21 +344,8 @@ void Widget::updateScore(QLabel *lab)
 
 void Widget::backToMaintMenuAfterGameOver(QLineEdit *line)
 {
-     qDebug()<<"WHY"<<line->text();
 
-     _controller->writeScore(line->text());
-
-//       QFile file (QDir::currentPath()+"/gameScore.txt");
-//        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-//          QTextStream fileS(&file);
-//          fileS<<name<<" "<<_state->score<<"\n";
-////          for(auto p : scoreVec) {
-////            fileS << p.first << " " << p.second << endl;
-////          }
-//        }
-
-//        file.close();
-
+    _controller->writeScore(line->text());
     _gameOverScreen->setEnabled(false);
     _gameOverScreen->hide();
     _menu->setEnabled(true);
