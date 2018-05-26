@@ -58,6 +58,11 @@ void Controller::keyReleaseEvent(QKeyEvent *event) {
 }
 
 void Controller::resize(int width, int height) {
-  _manager.resize(width, height);
+    _manager.resize(width, height);
+}
+
+void Controller::writeScore(QString name)
+{
+    _manager.saveScore(name);
 }
 

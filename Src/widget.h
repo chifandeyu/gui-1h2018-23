@@ -20,6 +20,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QTextBlock>
+#include <QLineEdit>
 
 namespace Ui {
 class Widget;
@@ -55,6 +56,7 @@ private:
 
     bool pause;
     bool start;
+    bool fullScr;
 
     int n =1;
     size_t _w;
@@ -79,9 +81,10 @@ private slots:
     void backToMaintMenu();
     void backFromOptionToMaintMenu();
     void updateScore(QLabel *lab);
-    void backToMaintMenuAfterGameOver();
+    void backToMaintMenuAfterGameOver(QLineEdit *line);
     void changeSoundPresence(QPushButton *button);
     void resizeScreen(size_t w,size_t h,bool fullScr=false);
+    void resizeScreen(size_t w,size_t h,QPushButton *button);
 
 
 

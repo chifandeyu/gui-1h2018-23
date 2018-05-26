@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <QDesktopWidget>
+#include <QDir>
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget),
@@ -24,8 +25,8 @@ Widget::Widget(QWidget *parent) :
     _gameOverScreen(createGameOverMenu()),
     pause(false),
     start(false),
-    _w(800),
-    _h(600)
+    fullScr(false)
+
 
 {
 
@@ -53,8 +54,13 @@ Widget::Widget(QWidget *parent) :
 
 
     setLayout(_grid.get());
-
-    this->resize(_w,_h);
+    QRect rec = QApplication::desktop()->screenGeometry();
+    double height = rec.height();
+    double width = rec.width();
+    _w=width;
+    _h=height;
+    this->resizeScreen(_w,_h);
+    //this->resize(_w,_h);
     // this->setFixedSize(_w,_h);
 
 
@@ -68,22 +74,22 @@ Widget::Widget(QWidget *parent) :
 void Widget::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() ==Qt::Key_Escape){
-        if (!pause) {
-            timer->stop();
-            _menu->setEnabled(true);
-            _menu->show();
+        if (start) {
+            if (!pause) {
+                timer->stop();
+                _menu->setEnabled(true);
+                _menu->show();
 
-            pause=true;
+                pause=true;
 
-        } else {
-            _menu->setEnabled(false);
-            _menu->hide();
+            } else {
+                _menu->setEnabled(false);
+                _menu->hide();
+                pause=false;
+                timer->start(1000 / 50);
+            }
 
-
-            pause=false;
-            timer->start(1000 / 50);
         }
-
     }
 
     //    if(event->key() ==Qt::Key_P){
@@ -119,35 +125,32 @@ QGroupBox *Widget::createMenu()
                         "border: 5px solid white;border-style: outset;border-width: 2px; border-radius: 10px; border-color: beige; "
                         " font: bold 14px;min-width: 10em;padding: 6px;";
     QPushButton *startButton=new QPushButton(tr("&Start"));
-    QPushButton *scoreButton=new QPushButton(tr("&GameScore"));
+    QPushButton *scoreButton=new QPushButton(tr("&Game Score"));
     // QPushButton *optionButon =new QPushButton(tr("&Option"));
     QPushButton *quitButton=new QPushButton(tr("&Quit"));
-    QPushButton *popupButton = new QPushButton(tr("Resoulution"));
-    QMenu *menu = new QMenu(this);
-    QAction *ac1 = new QAction(tr("&800 x 600 "));
-    menu->addAction(ac1);
+    // QPushButton *popupButton = new QPushButton(tr("Full Screen"));
+    //  QMenu *menu = new QMenu(this);
+    //  QAction *ac1 = new QAction(tr("&off"));
+    // menu->addAction(ac1);
 
-    QAction *ac2 = new QAction(tr("&1280 x 1024"));
-    menu->addAction(ac2);
 
-    QAction *ac3 = new QAction(tr("&1920 x 1080"));
-    menu->addAction(ac3);
 
-    QAction *ac4 = new QAction(tr("&Full screen "));
-    menu->addAction(ac4);
+    //QAction *ac4 = new QAction(tr("&on"));
+    // menu->addAction(ac4);
 
-    popupButton->setMenu(menu);
-    popupButton->setStyleSheet(styleSheet);
-    menu->setStyleSheet(styleSheet);
+    //popupButton->setMenu(menu);
+    // popupButton->setStyleSheet(styleSheet);
+    //menu->setStyleSheet(styleSheet);
     QRect rec = QApplication::desktop()->screenGeometry();
     double height = rec.height();
     double width = rec.width();
-    qDebug()<<width<<"!@@!"<<height;
 
-    connect(ac1,&QAction::triggered,this,[this,height,width] () {resizeScreen(width,height);});
-    connect(ac2,&QAction::triggered,this,[this,height,width] () {resizeScreen(width,height);});
-    connect(ac3,&QAction::triggered,this,[this,height,width] () {resizeScreen(width,height);});
-    connect(ac4,&QAction::triggered,this,[this,height,width] ( ) {resizeScreen(width,height,true);});
+    QPushButton *toggleButton = new QPushButton(tr("&Full Screen off"));
+
+    toggleButton->setStyleSheet(styleSheet);
+    connect(toggleButton,&QPushButton::clicked,[this,toggleButton,height,width](){resizeScreen(width,height,toggleButton);});
+    // connect(ac1,&QAction::triggered,this,[this,height,width] () {resizeScreen(width,height);});
+    // connect(ac4,&QAction::triggered,this,[this,height,width] ( ) {resizeScreen(width,height,true);});
     
     connect(startButton,&QPushButton::clicked,this, [this](){startGame();});
     connect(scoreButton,&QPushButton::clicked,this, [this](){openGameScore();});
@@ -188,7 +191,7 @@ QGroupBox *Widget::createMenu()
     vbox->addWidget(startButton);
     vbox->addWidget(scoreButton);
     //vbox->addWidget(optionButon);
-    vbox->addWidget(popupButton);
+    vbox->addWidget(toggleButton);
     vbox->addWidget(quitButton);
     vbox->addWidget(lab);
     vbox->addStretch(1);
@@ -258,7 +261,7 @@ QGroupBox *Widget::createOptionMenu()
     QAction *ac3 = new QAction(tr("&1920 x 1080"));
     menu->addAction(ac3);
 
-    QAction *ac4 = new QAction(tr("&Full screen "));
+    QAction *ac4 = new QAction(tr("&Full screen off"));
     menu->addAction(ac4);
 
     popupButton->setMenu(menu);
@@ -267,7 +270,7 @@ QGroupBox *Widget::createOptionMenu()
     QRect rec = QApplication::desktop()->screenGeometry();
     double height = rec.height();
     double width = rec.width();
-    qDebug()<<width<<"!@@!"<<height;
+
     connect(toggleButton,&QPushButton::clicked,[this,toggleButton](){changeSoundPresence(toggleButton);});
     connect(ac1,&QAction::triggered,this,[this] () {resizeScreen(800,600);});
     connect(ac2,&QAction::triggered,this,[this] () {resizeScreen(1280,1024);});
@@ -292,20 +295,25 @@ QGroupBox *Widget::createGameOverMenu()
                         " font: bold 14px;min-width: 10em;padding: 6px;";
 
     QPushButton *lab=new QPushButton(tr("&GAME OVER"));
+    QPushButton *lab2=new QPushButton(tr("&It was a good game.Please enter your name!"));
     QLineEdit *line=new QLineEdit;
     //connect(backButton,&QPushButton::clicked,this, [this] (){updateScore(lab);});
     line->setStyleSheet(styleSheet);
-    connect(line,&QLineEdit::editingFinished,this,[this] (){backToMaintMenuAfterGameOver();});
+    connect(line,&QLineEdit::returnPressed,this,[this,line] (){backToMaintMenuAfterGameOver(line);});
     lab->setStyleSheet(styleSheet);
+    lab2->setStyleSheet(styleSheet);
 
     QVBoxLayout *vbox = new QVBoxLayout;
 
     // lab1->setStyleSheet(styleSheet);
-    vbox->addWidget(lab);
-    vbox->addWidget(line);
-    vbox->addStretch(1);
-    groupBox->setLayout(vbox);
     groupBox->setStyleSheet(styleSheet);
+    // vbox->addStretch(1);
+    vbox->addWidget(lab);
+    vbox->addWidget(lab2);
+    vbox->addWidget(line);
+
+    groupBox->setLayout(vbox);
+
     return groupBox;
 }
 
@@ -334,9 +342,10 @@ void Widget::updateScore(QLabel *lab)
     lab->update();
 }
 
-void Widget::backToMaintMenuAfterGameOver()
+void Widget::backToMaintMenuAfterGameOver(QLineEdit *line)
 {
-    qDebug()<<"WORKS ?";
+
+    _controller->writeScore(line->text());
     _gameOverScreen->setEnabled(false);
     _gameOverScreen->hide();
     _menu->setEnabled(true);
@@ -364,28 +373,44 @@ void Widget::resizeScreen(size_t w, size_t h, bool fullScr)
 
     _w=w;
     _h=h;
-
-
     this->resize(_w,_h);
-
     _controller->resize(_w,_h);
     QRect rec = QApplication::desktop()->screenGeometry();
     double height = rec.height();
     double width = rec.width();
-    if ((width==_w) && (height==_h) && (fullScr))
+
+    if (fullScr) {
+
+        this->fullScr=true;
         this->setWindowState( Qt::WindowFullScreen );
-    else
+    }
+    else {
+        this->fullScr=false;
         this->setWindowState(Qt::WindowMaximized);
-    // this->setWindowState(Qt::Window`);
-    //this->setWindowFlags(this->windowFlags() | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
-    //this->setWindowState(this->windowState() | Qt::WindowFullScreen);
+    }
     update();
+}
+
+void Widget::resizeScreen(size_t w, size_t h, QPushButton *button)
+{
+    fullScr=!fullScr;
+    if (fullScr) {
+        button->setText(tr("&Full Screen on"));
+
+    }
+    else {
+        button->setText(tr("&Full Screen off"));
+
+    }
+
+    resizeScreen(w,h,fullScr);
+
 }
 
 void Widget::startGame()
 {  if (!start) {
         start=true;
-        qDebug()<<"STARTS";
+
         _menu->hide();
         _menu->setEnabled(false);
         pause=false;

@@ -61,7 +61,9 @@ FORMS += \
     widget.ui \
     gamescore.ui
 
-DISTFILES +=
+DISTFILES += \
+    SS.txt \
+    gameScore.txt
 
 RESOURCES += \
     res.qrc

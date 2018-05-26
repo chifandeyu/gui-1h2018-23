@@ -2,7 +2,9 @@
 #include <QString>
 #include <QFile>
 #include <QTextStream>
-
+#include <QDebug>
+#include <QCoreApplication>
+#include <QDir>
 namespace gTools {
   double SHIP_DEF_ACC_VAL = 0.18;
   double SHIP_DEF_ROTATE_ANGLE_SPEED = 0.09;
@@ -25,24 +27,30 @@ namespace gTools {
     return std::chrono::duration<double, std::milli>(std::chrono::high_resolution_clock::now()
                                                       - t).count();
   }
-
+// not using (see backToMaintMenuAfterGameOver)
   void writeScore(std::vector<std::pair<QString,int>> scoreVec) {
-    QFile file("score.txt");
-
+   // QFile file("score.txt");
+   // QFile file("SS.txt");
+      QFile file (QDir::currentPath()+"/gameScore.txt");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
       QTextStream fileS(&file);
       for(auto p : scoreVec) {
+          if (p.first.size()!=0)
         fileS << p.first << " " << p.second << endl;
+        // fileS << p.first << " " << p.second << "\n";
+
       }
     }
 
     file.close();
+
   }
 
   std::vector<std::pair<QString,int>> readScore() {
     std::vector<std::pair<QString,int>> a;
-    QFile file(":/score/score.txt");
-
+   // QFile file(":/score/score.txt");
+     // QFile file("SS.txt");
+    QFile file(QDir::currentPath()+"/gameScore.txt");
     if (file.exists()) {
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
           QTextStream fileS(&file);
