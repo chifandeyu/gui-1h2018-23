@@ -37,7 +37,6 @@ Widget::Widget(QWidget *parent) :
     _grid->addWidget(em1,0,0);
     _grid->addWidget(em2,2,2);
     _grid->addWidget(_score.get(),1,1);
-    // _grid->addWidget(_option.get(),1,1);
     _grid->addWidget(_gameOverScreen.get(),1,1);
     em1->show();
     em2->show();
@@ -47,8 +46,6 @@ Widget::Widget(QWidget *parent) :
     _gameOverScreen->setEnabled(false);
     _score->hide();
     _score->setEnabled(false);
-    //_option->hide();
-    // _option->setEnabled(false);
     _menu->show();
     _menu->setEnabled(true);
 
@@ -60,9 +57,6 @@ Widget::Widget(QWidget *parent) :
     _w=width;
     _h=height;
     this->resizeScreen(_w,_h);
-    //this->resize(_w,_h);
-    // this->setFixedSize(_w,_h);
-
 
 
     timer = std::shared_ptr<QTimer>(new QTimer());
@@ -92,17 +86,6 @@ void Widget::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    //    if(event->key() ==Qt::Key_P){
-    //        if (!pause) {
-    //            timer->stop();
-    //            pause=true;
-    //        } else {
-
-    //            pause=false;
-    //            timer->start(1000 / 50);
-    //        }
-    //    }
-
     _controller->keyPressEvent(event);
 
 }
@@ -126,21 +109,10 @@ QGroupBox *Widget::createMenu()
                         " font: bold 14px;min-width: 10em;padding: 6px;";
     QPushButton *startButton=new QPushButton(tr("&Start"));
     QPushButton *scoreButton=new QPushButton(tr("&Game Score"));
-    // QPushButton *optionButon =new QPushButton(tr("&Option"));
+
     QPushButton *quitButton=new QPushButton(tr("&Quit"));
-    // QPushButton *popupButton = new QPushButton(tr("Full Screen"));
-    //  QMenu *menu = new QMenu(this);
-    //  QAction *ac1 = new QAction(tr("&off"));
-    // menu->addAction(ac1);
 
 
-
-    //QAction *ac4 = new QAction(tr("&on"));
-    // menu->addAction(ac4);
-
-    //popupButton->setMenu(menu);
-    // popupButton->setStyleSheet(styleSheet);
-    //menu->setStyleSheet(styleSheet);
     QRect rec = QApplication::desktop()->screenGeometry();
     double height = rec.height();
     double width = rec.width();
@@ -149,43 +121,18 @@ QGroupBox *Widget::createMenu()
 
     toggleButton->setStyleSheet(styleSheet);
     connect(toggleButton,&QPushButton::clicked,[this,toggleButton,height,width](){resizeScreen(width,height,toggleButton);});
-    // connect(ac1,&QAction::triggered,this,[this,height,width] () {resizeScreen(width,height);});
-    // connect(ac4,&QAction::triggered,this,[this,height,width] ( ) {resizeScreen(width,height,true);});
-    
+
     connect(startButton,&QPushButton::clicked,this, [this](){startGame();});
     connect(scoreButton,&QPushButton::clicked,this, [this](){openGameScore();});
-    // connect(optionButon,&QPushButton::clicked,this, [this](){openOption();});
 
     connect(quitButton,&QPushButton::clicked,this, [this](){quitGame();});
 
     startButton->setStyleSheet(styleSheet);
     scoreButton->setStyleSheet(styleSheet);
-    // optionButon->setStyleSheet(styleSheet);
     quitButton->setStyleSheet(styleSheet);
     QPushButton *lab=new QPushButton(tr("&Made by danilapal and DarkNoys"));
     lab->setStyleSheet(styleSheet);
 
-
-    //    QPushButton *toggleButton = new QPushButton(tr("&Toggle Button"));
-    //    toggleButton->setCheckable(true);
-    //    toggleButton->setChecked(true);
-    //    QPushButton *flatButton = new QPushButton(tr("&Flat Button"));
-    //    flatButton->setFlat(true);
-
-    //    QPushButton *popupButton = new QPushButton(tr("Pop&up Button"));
-    //    QMenu *menu = new QMenu(this);
-    //    menu->addAction(tr("&First Item"));
-    //    menu->addAction(tr("&Second Item"));
-    //    menu->addAction(tr("&Third Item"));
-    //    menu->addAction(tr("F&ourth Item"));
-    //    popupButton->setMenu(menu);
-
-    //    QAction *newAction = menu->addAction(tr("Submenu"));
-    //    QMenu *subMenu = new QMenu(tr("Popup Submenu"));
-    //    subMenu->addAction(tr("Item 1"));
-    //    subMenu->addAction(tr("Item 2"));
-    //    subMenu->addAction(tr("Item 3"));
-    //    newAction->setMenu(subMenu);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(startButton);
@@ -218,16 +165,13 @@ QGroupBox *Widget::createScoreMenu()
     connect(backButton,&QPushButton::clicked, this, [this](){backToMaintMenu();});
     QLabel *lab=new QLabel("1.");
 
-    //connect(backButton,&QPushButton::clicked,this, [this,lab] (){updateScore(lab);});
     connect(this,&Widget::openScore,this, [this,lab] (){updateScore(lab);});
     lab->setStyleSheet(styleSheet);
 
     QVBoxLayout *vbox = new QVBoxLayout;
 
-    // lab1->setStyleSheet(styleSheet);
     vbox->addWidget(lab);
     vbox->addWidget(backButton);
-    //vbox->addWidget(lab1);
 
     vbox->addStretch(1);
     groupBox->setStyleSheet(styleSheet);
@@ -305,9 +249,7 @@ QGroupBox *Widget::createGameOverMenu()
 
     QVBoxLayout *vbox = new QVBoxLayout;
 
-    // lab1->setStyleSheet(styleSheet);
     groupBox->setStyleSheet(styleSheet);
-    // vbox->addStretch(1);
     vbox->addWidget(lab);
     vbox->addWidget(lab2);
     vbox->addWidget(line);
@@ -328,16 +270,14 @@ void Widget::openGameOverScreen()
 
 void Widget::updateScore(QLabel *lab)
 {
-    //    if(QFile::exists(":/score/score.txt"))
-    //    {
-    //        qDebug() << "Файл существует";
-    //    } else {  qDebug() << "Файл НЕ существует";}
-    //    QFile file(":/score/score.txt");
     std::vector<std::pair<QString,int>> ScoreTable=gTools::readScore();
     //upd score
     QString scoreText="";
-    for  (size_t i=0;i<ScoreTable.size()-1;i++)
-        scoreText+=ScoreTable[i].first+" "+QString::number(ScoreTable[i].second) +"\n";
+    for  (size_t i=0; i < ScoreTable.size();i++) {
+        scoreText+=ScoreTable[i].first+" "+QString::number(ScoreTable[i].second);
+        if (i != ScoreTable.size()-1)
+            scoreText += "\n";
+    }
     lab->setText(scoreText);
     lab->update();
 }
@@ -417,8 +357,6 @@ void Widget::startGame()
         newGame();
 
         timer->start(1000 / 50);
-        //_gameOverScreen->show();
-        // _gameOverScreen->setEnabled(true);
     }
 }
 
@@ -438,8 +376,6 @@ void Widget::openOption()
 {
     _menu->hide();
     _menu->setEnabled(false);
-    //_option->show();
-    // _option->setEnabled(true);
 }
 
 void Widget::quitGame()
@@ -457,8 +393,6 @@ void Widget::backToMaintMenu()
 
 void Widget::backFromOptionToMaintMenu()
 {
-    //_option->setEnabled(false);
-    // _option->hide();
     _menu->setEnabled(true);
     _menu->show();
 }

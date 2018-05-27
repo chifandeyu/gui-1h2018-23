@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui \
-multimedia
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,7 +31,6 @@ SOURCES += \
     object.cpp \
     ship.cpp \
     state.cpp \
-    testmodel.cpp \
     widget.cpp \
     objectpainter.cpp \
     objectbuilder.cpp \
@@ -47,7 +45,6 @@ HEADERS += \
     object.h \
     ship.h \
     state.h \
-    testmodel.h \
     widget.h \
     objectpainter.h \
     objectbuilder.h \
@@ -60,10 +57,3 @@ FORMS += \
         mainwindow.ui \
     widget.ui \
     gamescore.ui
-
-DISTFILES += \
-    SS.txt \
-    gameScore.txt
-
-RESOURCES += \
-    res.qrc

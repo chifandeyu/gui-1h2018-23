@@ -8,8 +8,7 @@
 ObjectPainter::ObjectPainter(QObject *parent) :
     QObject(parent), QGraphicsItem()
 {
-    //angle = 0;
-    // setRotation(angle);
+
 }
 
 ObjectPainter::ObjectPainter(State *state) :
@@ -27,15 +26,9 @@ void ObjectPainter::keyPressEvent(QKeyEvent *event)
 {
 
 }
-/*
-QRectF ObjectPainter::boundingRect() const
-{
-    return QRectF(-25,-40,50,80);
-}
-*/
+
 void ObjectPainter::drawLifeBar(std::shared_ptr<State> state, QPainter *painter)
 {
-    //painter->drawText(50,50,(QString)(state.get()->life));
 
     painter->drawText(245+state->width-800,40,"Life");
     if(state->life>=0)
@@ -50,7 +43,6 @@ void ObjectPainter::drawLifeBar(std::shared_ptr<State> state, QPainter *painter)
 
 void ObjectPainter::drawScoreBar(std::shared_ptr<State> state,QPainter *painter)
 {
-    //painter->drawText(350,50,(QString) (state.get()->score));
     painter->drawText(350+state->width-800,40,"Score");
     painter->drawText(350+state->width-800,50,QString::number(state->score));
 

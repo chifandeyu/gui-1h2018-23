@@ -9,11 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     _gamescore = std::shared_ptr<gameScore>  (new gameScore);
     connect(_gamescore.get(),&gameScore::firstWindow,this,&MainWindow::show);
-   // ui->widget->hide();
-  //  ui->
-//    _main_menu.setGeometry(0,0,100,100);
- //   _main_menu.addAction(ui->pushButton);
-
 }
 
 MainWindow::~MainWindow()
@@ -23,7 +18,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {   if (_widget==nullptr)
-       // _widget.reset();
     _widget = std::shared_ptr<Widget> (new Widget);
 
     _widget->newGame();

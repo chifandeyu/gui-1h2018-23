@@ -7,7 +7,6 @@
 #include <QTimer>
 #include <ship.h>
 #include <state.h>
-#include <testmodel.h>
 #include <QPaintEvent>
 #include <QPainter>
 #include <objectbuilder.h>
@@ -51,7 +50,6 @@ private:
     std::shared_ptr<QGridLayout> _grid ;
     std::shared_ptr<QGroupBox> _menu;
     std::shared_ptr<QGroupBox> _score;
-   // std::shared_ptr<QGroupBox> _option;
     std::shared_ptr<QGroupBox> _gameOverScreen;
 
     bool pause;

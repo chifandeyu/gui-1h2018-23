@@ -27,11 +27,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     std::shared_ptr<Widget> _widget =nullptr ;
-  //Widget *_widget;
-  //  gameScore *_gamescore;
     std::shared_ptr <gameScore> _gamescore;
     QGroupBox _main_menu;
-    //QGroupBox _options_menu;
     QGroupBox _gameScore;
 
 };

@@ -31,18 +31,29 @@ namespace gTools {
   void writeScore(std::vector<std::pair<QString,int>> scoreVec) {
    // QFile file("score.txt");
    // QFile file("SS.txt");
+      #ifdef Q_OS_LINUX
+      QFile file (QDir::homePath() + "/.asteroid_game_score");
+      #else
       QFile file (QDir::currentPath()+"/gameScore.txt");
+      #endif
+
+
+
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
       QTextStream fileS(&file);
-      for(auto p : scoreVec) {
-          if (p.first.size()!=0)
-        fileS << p.first << " " << p.second << endl;
-        // fileS << p.first << " " << p.second << "\n";
+      for(int i = 0 ; i < scoreVec.size(); i++) {
+          auto p = scoreVec[i];
+          if (p.first.size()!=0) {
+              fileS << p.first << " " << p.second;
+              if (i != scoreVec.size()-1)
+                  fileS << endl;
+          }
 
       }
+      file.close();
     }
 
-    file.close();
+
 
   }
 
@@ -50,7 +61,12 @@ namespace gTools {
     std::vector<std::pair<QString,int>> a;
    // QFile file(":/score/score.txt");
      // QFile file("SS.txt");
-    QFile file(QDir::currentPath()+"/gameScore.txt");
+    #ifdef Q_OS_LINUX
+    QFile file (QDir::homePath() + "/.asteroid_game_score");
+    #else
+    QFile file (QDir::currentPath()+"/gameScore.txt");
+    #endif
+
     if (file.exists()) {
       if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
           QTextStream fileS(&file);
@@ -61,9 +77,11 @@ namespace gTools {
             fileS >> name >> score;
             a.push_back(std::pair<QString,int>(name, score));
           }
+          file.close();
       }
+
     }
-    file.close();
+
     std::sort(a.begin(),a.end(),[](std::pair<QString,int> a,std::pair<QString,int> b) {return (a.second>b.second);});
     return a;
   }

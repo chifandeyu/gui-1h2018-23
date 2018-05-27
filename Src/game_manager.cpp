@@ -256,15 +256,6 @@ void GameManager::destroyBullet(int i) {
 }
 
 void GameManager::breakAsteroid(State::object_vec &newAsteroids, State::object_ptr object, State::object_ptr bullet) {
-//    QMediaPlayer *_soundPlayer= new QMediaPlayer();
-//   _soundPlayer->setMedia(QUrl("qrc:/sound/bangLarge.wav"));
-//   // play bulletsound
-//         if (_soundPlayer->state() == QMediaPlayer::PlayingState){
-//             _soundPlayer->setPosition(0);
-//         }
-//         else if (_soundPlayer->state() == QMediaPlayer::StoppedState){
-//             _soundPlayer->play();
-//         }
   if (object->getSize() > 1.5) {
 
     int mass = gTools::BULLET_MASS;
